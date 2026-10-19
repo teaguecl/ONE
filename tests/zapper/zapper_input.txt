@@ -1,0 +1,14 @@
+# Zapper aim for tests/zapper/zapper.nes (`one --input tests/zapper/zapper_input.txt`), one line per measured frame.
+# The ROM's frames start (NMI) at CPU cycles 86980, 116763, 146540, 176323, 206106, 235883, 265664, 295447 (+/- a few
+# cycles) and it reads $4017 from there on; the Zapper takes its aim once a frame, at the first read, so each aim is set
+# 100 cycles before its frame's start (after the previous frame's last read, long before).
+# The square is X 128-143, Y 96-111 (white on black).
+0       zapper off
+86880   zapper off           # frame 0: away from the screen: always dark
+116663  zapper 136 104       # frame 1: the middle of the square: light from the beam reaching it, for about 20 scanlines
+146440  zapper 20 20         # frame 2: on black: dark
+176223  zapper 136 104 fire  # frame 3: the middle, trigger pulled
+206006  zapper 128 96        # frame 4: the square's top left pixel
+235783  zapper 143 111       # frame 5: its bottom right pixel
+265564  zapper 255 239       # frame 6: the picture's bottom right corner: dark
+295347  zapper off fire      # frame 7: away from the screen, trigger pulled

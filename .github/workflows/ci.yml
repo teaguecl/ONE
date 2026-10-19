@@ -1,0 +1,197 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+    tags: [ 'v*' ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  linux:
+    name: Linux ${{ matrix.compiler }} ${{ matrix.config }}
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { compiler: gcc,   cxx: g++,     config: Release, sanitizers: OFF }
+          - { compiler: clang, cxx: clang++, config: Release, sanitizers: OFF }
+          - { compiler: gcc,   cxx: g++,     config: Debug,   sanitizers: ON  }
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y libsdl2-dev ninja-build
+      - name: Configure
+        run: >
+          cmake -S . -B build -G Ninja
+          -DCMAKE_C_COMPILER=${{ matrix.compiler }}
+          -DCMAKE_CXX_COMPILER=${{ matrix.cxx }}
+          -DCMAKE_BUILD_TYPE=${{ matrix.config }}
+          -DONE_BUILD_DEBUGGER=ON
+          -DONE_ENABLE_SANITIZERS=${{ matrix.sanitizers }}
+          -DONE_WARNINGS_AS_ERRORS=ON
+      - name: Build
+        run: cmake --build build
+      - name: Static analysis
+        if: matrix.compiler == 'clang' && matrix.config == 'Release'
+        run: sudo apt-get install -y clang-tidy-18 && bash tools/tidy.sh -p build
+      - name: Test
+        run: ctest --test-dir build -L smoke --output-on-failure
+      - name: Package
+        if: matrix.compiler == 'gcc' && matrix.config == 'Release'
+        run: cd build && cpack
+      - uses: actions/upload-artifact@v5
+        if: matrix.compiler == 'gcc' && matrix.config == 'Release'
+        with:
+          name: one-linux-x86_64
+          path: build/one-*.tar.gz
+
+  windows-msvc:
+    name: Windows MSVC
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v5
+      - name: Configure
+        run: cmake --preset windows-msvc
+      - name: Build
+        run: cmake --build --preset windows-msvc
+      - name: Test
+        run: ctest --preset windows-msvc
+      - name: Package
+        run: cd build/windows-msvc && cpack -C Release
+      - uses: actions/upload-artifact@v5
+        with:
+          name: one-windows-msvc-x64
+          path: build/windows-msvc/one-*.zip
+
+  windows-mingw:
+    name: Windows MinGW (MSYS2)
+    runs-on: windows-2022
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          update: true
+          install: >-
+            mingw-w64-ucrt-x86_64-gcc
+            mingw-w64-ucrt-x86_64-cmake
+            mingw-w64-ucrt-x86_64-ninja
+            mingw-w64-ucrt-x86_64-SDL2
+      - name: Configure
+        run: cmake --preset windows-mingw -DONE_WARNINGS_AS_ERRORS=ON
+      - name: Build
+        run: cmake --build --preset windows-mingw
+      - name: Test
+        run: ctest --preset windows-mingw
+  format:
+    name: Formatting (clang-format 18)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install clang-format
+        run: sudo apt-get update && sudo apt-get install -y clang-format-18
+      - name: Check
+        run: bash tools/format.sh --check
+      - name: License headers and separation
+        run: python3 tools/license_headers.py --check && python3 tools/separation_check.py
+
+  windows-msvc-debugger:
+    name: Windows MSVC debugger
+    runs-on: windows-2022
+    continue-on-error: true   # (new: remove once it has passed)
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Configure
+        run: cmake --preset windows-msvc-debugger
+      - name: Build
+        run: cmake --build --preset windows-msvc-debugger
+      - name: Debugger batch smoke test
+        run: build\windows-msvc-debugger\debugger\Release\one-debugger.exe --batch -s tests\debugger_smoke.txt tests\data\nestest.nes
+      - name: Remote channel and MCP adapter
+        run: |
+          pip install mcp
+          python tests\mcp_check.py build\windows-msvc-debugger\debugger\Release\one-debugger.exe tests\data\nestest.nes
+      - uses: actions/upload-artifact@v5
+        with:
+          name: one-debugger-windows-x64-msvc
+          path: build/windows-msvc-debugger/debugger/Release/one-debugger.exe
+
+  libretro-linux:
+    name: libretro core (Linux)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y ninja-build
+      - name: Configure
+        run: >
+          cmake -S . -B build -G Ninja
+          -DCMAKE_BUILD_TYPE=Release
+          -DONE_BUILD_LIBRETRO=ON -DONE_ENABLE_SDL2=OFF -DONE_BUILD_GUI=OFF
+          -DONE_WARNINGS_AS_ERRORS=ON
+      - name: Build
+        run: cmake --build build --target one_libretro libretro_host
+      - name: Test
+        run: ctest --test-dir build -L libretro --output-on-failure
+      - uses: actions/upload-artifact@v5
+        with:
+          name: one-libretro-linux-x86_64
+          path: |
+            build/one_libretro.so
+            libretro/one_libretro.info
+
+  libretro-windows-cross:
+    name: libretro core (Windows, MinGW-w64 cross)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y ninja-build gcc-mingw-w64-x86-64 g++-mingw-w64-x86-64 binutils-mingw-w64-x86-64
+      - name: Configure
+        run: cmake --preset windows-cross-libretro -DONE_WARNINGS_AS_ERRORS=ON
+      - name: Build
+        run: cmake --build --preset windows-cross-libretro
+      - name: Check the exports and imports
+        run: |
+          dll=build/windows-cross-libretro/one_libretro.dll
+          x86_64-w64-mingw32-objdump -p "$dll" > exports.txt
+          for fn in retro_api_version retro_init retro_load_game retro_run retro_serialize retro_unserialize retro_get_memory_data; do
+              grep -q " $fn\$" exports.txt || { echo "missing export: $fn"; exit 1; }
+          done
+          # a self-contained DLL: nothing but the Windows system libraries
+          if grep "DLL Name" exports.txt | grep -v -i -E "KERNEL32|msvcrt|api-ms-win"; then
+              echo "unexpected DLL dependency"; exit 1
+          fi
+      - uses: actions/upload-artifact@v5
+        with:
+          name: one-libretro-windows-x86_64-mingw
+          path: |
+            build/windows-cross-libretro/one_libretro.dll
+            libretro/one_libretro.info
+
+  libretro-windows-msvc:
+    name: libretro core (Windows, MSVC)
+    runs-on: windows-2022
+    continue-on-error: true   # (never built yet: remove once it has passed)
+    steps:
+      - uses: actions/checkout@v5
+      - name: Configure
+        run: cmake --preset windows-msvc-libretro
+      - name: Build
+        run: cmake --build --preset windows-msvc-libretro
+      - name: Test
+        run: ctest --test-dir build/windows-msvc-libretro -C Release -L libretro --output-on-failure
+      - uses: actions/upload-artifact@v5
+        with:
+          name: one-libretro-windows-x64-msvc
+          path: |
+            build/windows-msvc-libretro/Release/one_libretro.dll
+            libretro/one_libretro.info

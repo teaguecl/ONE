@@ -1,0 +1,8 @@
+# ONE's built-in Game Genie codes: found by ONE's author with the debugger (cheat search, write breakpoints), GPL-2.0
+# like the rest of ONE. More games: the user's own nes_gamegenie.txt (data/cheats/README.md).
+# @<SHA-1 of the ROM data (PRG+CHR, no header)> <name>, then <code>[+<code>]<TAB><description>
+@15F245161179AB1959B7DC20E82ADD024D23AA3D Ninja Gaiden (USA)
+SXXVYPSA	Ryu's energy never decreases
+GZETPGVG	Lives never decrease
+XYETKSKN+XNXVESKN+XYKVKVKN	Ryu jumps higher
+ATKTGOKL	Enemies cannot hit Ryu

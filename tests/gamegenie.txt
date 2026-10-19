@@ -1,0 +1,40 @@
+# Game Genie codes applied (ctest debugger_gamegenie, on nestest). $C5F5 holds LDX #$00 (A2 00): the codes patch
+# its operand at $C5F6.
+r pc = c000
+!assert mem c5f6 00
+# 6-letter code: $C5F6 = 42
+gg on ZKYGTI
+!assert mem c5f6 42
+# the CPU reads it too: JMP $C5F5, then LDX #$42
+t 2
+!assert reg x 42
+gg off ZKYGTI
+!assert mem c5f6 00
+# the words people try: gg apply = gg on, gg decode CODE = gg CODE
+gg apply ZKYGTI
+!assert mem c5f6 42
+gg decode ZKYGTI
+gg off ZKYGTI
+!assert mem c5f6 00
+# 8-letter codes apply only where the ROM byte is the compare value: $C5F6 = 42 if 99 (the ROM has 00) does nothing
+gg on ZKNGTSOP
+!assert mem c5f6 00
+# ... $C5F6 = 42 if 00 does
+gg on ZKNGTIAA
+!assert mem c5f6 42
+# Game Genie off keeps the codes listed but not applied
+gg disable
+!assert mem c5f6 00
+gg enable
+!assert mem c5f6 42
+# a power cycle of the same game keeps them
+reset hard
+!assert mem c5f6 42
+# gg off unticks (the code stays in the list), gg delete takes it out
+gg off *
+!assert mem c5f6 00
+gg on ZKNGTIAA
+!assert mem c5f6 42
+gg delete *
+!assert mem c5f6 00
+gg list

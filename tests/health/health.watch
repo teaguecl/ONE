@@ -1,0 +1,2 @@
+# ONE debugger watches (watch commands), loaded when the ROM is debugged again
+watch $0347 b

@@ -1,0 +1,14 @@
+# Bank-exact labels: banked.dbg (ld65 --dbgfile) gives PRG-ROM offsets, so the three routines at $8000 are told apart
+u bank2_func
+g after_bank1
+!assert reg pc c026
+bpx bank1_func
+!assert mem 0010 01
+bc *
+g after_bank2
+!assert reg pc c02e
+!assert mem 0010 02
+n 8001 bank2_body
+r pc = bank2_body
+!assert reg pc 8001
+q

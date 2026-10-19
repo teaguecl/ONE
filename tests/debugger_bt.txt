@@ -1,0 +1,17 @@
+# backtrace (bt) on nestest (run by ctest: debugger_bt): nestest waits in a loop inside a subroutine
+# call tracking starts with the first bt
+bt
+fs 30
+!assert bt depth 1
+!assert bt site 1 c081
+!assert bt target 1 c28d
+bt
+bt jumps
+# a JSR, and its return (p ret runs the RTS and stops in the caller: the frame is gone)
+r pc = c000
+bpx c72d
+g
+!assert reg pc c72d
+!assert bt depth 1
+p ret
+!assert bt depth 0

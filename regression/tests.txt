@@ -1,0 +1,294 @@
+# Mesen trace regression manifest.  Paths are relative to the repository root.
+# seconds|name|rom|mesen log|extra args|note
+# seconds = measured wall time (0 = not measured yet); quick = under 20 s.
+3|vbl/01-vbl_basics|test_roms/ppu_vbl_nmi/rom_singles/01-vbl_basics.nes|test_roms/ppu_vbl_nmi/rom_singles/01-vbl_basics_mesen.txt||
+3|vbl/02-vbl_set_time|test_roms/ppu_vbl_nmi/rom_singles/02-vbl_set_time.nes|test_roms/ppu_vbl_nmi/rom_singles/02-vbl_set_time_mesen.txt||
+3|vbl/03-vbl_clear_time|test_roms/ppu_vbl_nmi/rom_singles/03-vbl_clear_time.nes|test_roms/ppu_vbl_nmi/rom_singles/03-vbl_clear_time_mesen.txt||
+1|vbl/04-nmi_control|test_roms/ppu_vbl_nmi/rom_singles/04-nmi_control.nes|test_roms/ppu_vbl_nmi/rom_singles/04-nmi_control_mesen.txt||
+3|vbl/05-nmi_timing|test_roms/ppu_vbl_nmi/rom_singles/05-nmi_timing.nes|test_roms/ppu_vbl_nmi/rom_singles/05-nmi_timing_mesen.txt||
+3|vbl/06-suppression|test_roms/ppu_vbl_nmi/rom_singles/06-suppression.nes|test_roms/ppu_vbl_nmi/rom_singles/06-suppression_mesen.txt||
+2|vbl/07-nmi_on_timing|test_roms/ppu_vbl_nmi/rom_singles/07-nmi_on_timing.nes|test_roms/ppu_vbl_nmi/rom_singles/07-nmi_on_timing_mesen.txt||
+3|vbl/08-nmi_off_timing|test_roms/ppu_vbl_nmi/rom_singles/08-nmi_off_timing.nes|test_roms/ppu_vbl_nmi/rom_singles/08-nmi_off_timing_mesen.txt||
+1|vbl/09-even_odd_frames|test_roms/ppu_vbl_nmi/rom_singles/09-even_odd_frames.nes|test_roms/ppu_vbl_nmi/rom_singles/09-even_odd_frames_mesen.txt||
+2|vbl/10-even_odd_timing|test_roms/ppu_vbl_nmi/rom_singles/10-even_odd_timing.nes|test_roms/ppu_vbl_nmi/rom_singles/10-even_odd_timing_mesen.txt||
+2|spr/01-basics|test_roms/ppu_sprite_hit/rom_singles/01-basics.nes|test_roms/ppu_sprite_hit/rom_singles/01-basics_mesen.txt||
+1|spr/02-alignment|test_roms/ppu_sprite_hit/rom_singles/02-alignment.nes|test_roms/ppu_sprite_hit/rom_singles/02-alignment_mesen.txt||
+1|spr/03-corners|test_roms/ppu_sprite_hit/rom_singles/03-corners.nes|test_roms/ppu_sprite_hit/rom_singles/03-corners_mesen.txt||
+0|spr/04-flip|test_roms/ppu_sprite_hit/rom_singles/04-flip.nes|test_roms/ppu_sprite_hit/rom_singles/04-flip_mesen.txt||
+0|spr/05-left_clip|test_roms/ppu_sprite_hit/rom_singles/05-left_clip.nes|test_roms/ppu_sprite_hit/rom_singles/05-left_clip_mesen.txt||
+1|spr/06-right_edge|test_roms/ppu_sprite_hit/rom_singles/06-right_edge.nes|test_roms/ppu_sprite_hit/rom_singles/06-right_edge_mesen.txt||
+1|spr/07-screen_bottom|test_roms/ppu_sprite_hit/rom_singles/07-screen_bottom.nes|test_roms/ppu_sprite_hit/rom_singles/07-screen_bottom_mesen.txt||
+1|spr/08-double_height|test_roms/ppu_sprite_hit/rom_singles/08-double_height.nes|test_roms/ppu_sprite_hit/rom_singles/08-double_height_mesen.txt||
+3|spr/09-timing|test_roms/ppu_sprite_hit/rom_singles/09-timing.nes|test_roms/ppu_sprite_hit/rom_singles/09-timing_mesen.txt||
+1|spr/10-timing_order|test_roms/ppu_sprite_hit/rom_singles/10-timing_order.nes|test_roms/ppu_sprite_hit/rom_singles/10-timing_order_mesen.txt||
+1|instr/01-basics|test_roms/instr_test-v5/rom_singles/01-basics.nes|test_roms/instr_test-v5/rom_singles/01-basics_mesen.txt||
+2|instr/02-implied|test_roms/instr_test-v5/rom_singles/02-implied.nes|test_roms/instr_test-v5/rom_singles/02-implied_mesen.txt||
+1|instr/03-immediate|test_roms/instr_test-v5/rom_singles/03-immediate.nes|test_roms/instr_test-v5/rom_singles/03-immediate_mesen.txt||
+2|instr/04-zero_page|test_roms/instr_test-v5/rom_singles/04-zero_page.nes|test_roms/instr_test-v5/rom_singles/04-zero_page_mesen.txt||
+3|instr/05-zp_xy|test_roms/instr_test-v5/rom_singles/05-zp_xy.nes|test_roms/instr_test-v5/rom_singles/05-zp_xy_mesen.txt||
+2|instr/06-absolute|test_roms/instr_test-v5/rom_singles/06-absolute.nes|test_roms/instr_test-v5/rom_singles/06-absolute_mesen.txt||
+5|instr/07-abs_xy|test_roms/instr_test-v5/rom_singles/07-abs_xy.nes|test_roms/instr_test-v5/rom_singles/07-abs_xy_mesen.txt||
+2|instr/08-ind_x|test_roms/instr_test-v5/rom_singles/08-ind_x.nes|test_roms/instr_test-v5/rom_singles/08-ind_x_mesen.txt||
+2|instr/09-ind_y|test_roms/instr_test-v5/rom_singles/09-ind_y.nes|test_roms/instr_test-v5/rom_singles/09-ind_y_mesen.txt||
+1|instr/10-branches|test_roms/instr_test-v5/rom_singles/10-branches.nes|test_roms/instr_test-v5/rom_singles/10-branches_mesen.txt||
+2|instr/11-stack|test_roms/instr_test-v5/rom_singles/11-stack.nes|test_roms/instr_test-v5/rom_singles/11-stack_mesen.txt||
+0|instr/12-jmp_jsr|test_roms/instr_test-v5/rom_singles/12-jmp_jsr.nes|test_roms/instr_test-v5/rom_singles/12-jmp_jsr_mesen.txt||
+0|instr/13-rts|test_roms/instr_test-v5/rom_singles/13-rts.nes|test_roms/instr_test-v5/rom_singles/13-rts_mesen.txt||
+1|instr/14-rti|test_roms/instr_test-v5/rom_singles/14-rti.nes|test_roms/instr_test-v5/rom_singles/14-rti_mesen.txt||
+1|instr/15-brk|test_roms/instr_test-v5/rom_singles/15-brk.nes|test_roms/instr_test-v5/rom_singles/15-brk_mesen.txt||
+0|instr/16-special|test_roms/instr_test-v5/rom_singles/16-special.nes|test_roms/instr_test-v5/rom_singles/16-special_mesen.txt||
+26|instr/all_instrs|test_roms/instr_test-v5/all_instrs.nes|test_roms/instr_test-v5/all_instrs_mesen.txt||
+11|timing/1-instr_timing|test_roms/instr_timing/rom_singles/1-instr_timing.nes|test_roms/instr_timing/rom_singles/1-instr_timing_mesen.txt||
+2|timing/2-branch_timing|test_roms/instr_timing/rom_singles/2-branch_timing.nes|test_roms/instr_timing/rom_singles/2-branch_timing_mesen.txt||
+1|branch/1.Branch_Basics|test_roms/branch_timing_tests/1.Branch_Basics.nes|test_roms/branch_timing_tests/1.Branch_Basics_mesen.txt||
+1|branch/2.Backward_Branch|test_roms/branch_timing_tests/2.Backward_Branch.nes|test_roms/branch_timing_tests/2.Backward_Branch_mesen.txt||
+0|branch/3.Forward_Branch|test_roms/branch_timing_tests/3.Forward_Branch.nes|test_roms/branch_timing_tests/3.Forward_Branch_mesen.txt||
+7|cpu6/cpu_timing_test|test_roms/cpu_timing_test6/cpu_timing_test.nes|test_roms/cpu_timing_test6/cpu_timing_test_mesen.txt||
+0|nestest|tests/data/nestest.nes|tests/data/nestest_mesen.txt|-p C000 -R 74,00,F4,FA,07|
+1|dummy/cpu_dummy_reads|test_roms/cpu_dummy_reads.nes|test_roms/cpu_dummy_reads_mesen.txt||
+2|dummy/cpu_dummy_writes_ppumem|test_roms/cpu_dummy_writes_ppumem.nes|test_roms/cpu_dummy_writes_ppumem_mesen.txt||
+4|dummy/cpu_dummy_writes_oam|test_roms/cpu_dummy_writes_oam.nes|test_roms/cpu_dummy_writes_oam_mem_mesen.txt||
+1|exec/ppuio|test_roms/test_cpu_exec_space_ppuio.nes|test_roms/test_cpu_exec_space_ppuio_mesen.txt||
+3|exec/apu|test_roms/test_cpu_exec_space_apu.nes|test_roms/test_cpu_exec_space_apu_mesen.txt||
+1|irq/1-cli_latency|test_roms/cpu_interrupts_v2/rom_singles/1-cli_latency.nes|test_roms/cpu_interrupts_v2/rom_singles/1-cli_latency_mesen.txt||
+1|irq/2-nmi_and_brk|test_roms/cpu_interrupts_v2/rom_singles/2-nmi_and_brk.nes|test_roms/cpu_interrupts_v2/rom_singles/2-nmi_and_brk_mesen.txt||
+2|irq/3-nmi_and_irq|test_roms/cpu_interrupts_v2/rom_singles/3-nmi_and_irq.nes|test_roms/cpu_interrupts_v2/rom_singles/3-nmi_and_irq_mesen.txt||
+1|irq/4-irq_and_dma|test_roms/cpu_interrupts_v2/rom_singles/4-irq_and_dma.nes|test_roms/cpu_interrupts_v2/rom_singles/4-irq_and_dma_mesen.txt||
+5|irq/5-branch_delays_irq|test_roms/cpu_interrupts_v2/rom_singles/5-branch_delays_irq.nes|test_roms/cpu_interrupts_v2/rom_singles/5-branch_delays_irq_mesen.txt||
+4|reset/registers|test_roms/cpu_reset/registers.nes|test_roms/cpu_reset/registers_mesen.txt|-r 6281200|
+3|reset/ram_after_reset|test_roms/cpu_reset/ram_after_reset.nes|test_roms/cpu_reset/ram_after_reset_mesen.txt|-r 6042954|
+0|ppu2005/palette_ram|test_roms/blargg_ppu_tests_2005.09.15b/palette_ram.nes|test_roms/blargg_ppu_tests_2005.09.15b/palette_ram_mesen.txt||
+1|ppu2005/power_up_palette|test_roms/blargg_ppu_tests_2005.09.15b/power_up_palette.nes|test_roms/blargg_ppu_tests_2005.09.15b/power_up_palette_mesen.txt||
+0|ppu2005/sprite_ram|test_roms/blargg_ppu_tests_2005.09.15b/sprite_ram.nes|test_roms/blargg_ppu_tests_2005.09.15b/sprite_ram_mesen.txt||
+1|ppu2005/vbl_clear_time|test_roms/blargg_ppu_tests_2005.09.15b/vbl_clear_time.nes|test_roms/blargg_ppu_tests_2005.09.15b/vbl_clear_time_mesen.txt||
+0|ppu2005/vram_access|test_roms/blargg_ppu_tests_2005.09.15b/vram_access.nes|test_roms/blargg_ppu_tests_2005.09.15b/vram_access_mesen.txt||
+0|sprovf/1.Basics|test_roms/sprite_overflow_tests/1.Basics.nes|test_roms/sprite_overflow_tests/1.Basics_mesen.txt||
+0|sprovf/2.Details|test_roms/sprite_overflow_tests/2.Details.nes|test_roms/sprite_overflow_tests/2.Details_mesen.txt||
+1|sprovf/3.Timing|test_roms/sprite_overflow_tests/3.Timing.nes|test_roms/sprite_overflow_tests/3.Timing_mesen.txt||
+0|sprovf/4.Obscure|test_roms/sprite_overflow_tests/4.Obscure.nes|test_roms/sprite_overflow_tests/4.Obscure_mesen.txt||
+1|sprovf/5.Emulator|test_roms/sprite_overflow_tests/5.Emulator.nes|test_roms/sprite_overflow_tests/5.Emulator_mesen.txt||
+1|ppu/oam_read|test_roms/oam_read/oam_read.nes|test_roms/oam_read/oam_read_mesen.txt||
+20|ppu/oam_stress|test_roms/oam_stress/oam_stress.nes|test_roms/oam_stress/oam_stress_mesen.txt||
+3|ppu/ppu_open_bus|test_roms/ppu_open_bus/ppu_open_bus.nes|test_roms/ppu_open_bus/ppu_open_bus_mesen.txt||
+15|ppu/test_ppu_read_buffer|test_roms/ppu_read_buffer/test_ppu_read_buffer.nes|test_roms/ppu_read_buffer/test_ppu_read_buffer_mesen.txt||
+1|misc/01-abs_x_wrap|test_roms/instr_misc/rom_singles/01-abs_x_wrap.nes|test_roms/instr_misc/rom_singles/01-abs_x_wrap_mesen.txt||
+0|misc/02-branch_wrap|test_roms/instr_misc/rom_singles/02-branch_wrap.nes|test_roms/instr_misc/rom_singles/02-branch_wrap_mesen.txt||
+0|misc/03-dummy_reads|test_roms/instr_misc/rom_singles/03-dummy_reads.nes|test_roms/instr_misc/rom_singles/03-dummy_reads_mesen.txt||
+2|misc/04-dummy_reads_apu|test_roms/instr_misc/rom_singles/04-dummy_reads_apu.nes|test_roms/instr_misc/rom_singles/04-dummy_reads_apu_mesen.txt||
+1|apu/1-len_ctr|test_roms/apu_test/rom_singles/1-len_ctr.nes|test_roms/apu_test/rom_singles/1-len_ctr_mesen.txt||
+1|apu/2-len_table|test_roms/apu_test/rom_singles/2-len_table.nes|test_roms/apu_test/rom_singles/2-len_table_mesen.txt||
+0|apu/3-irq_flag|test_roms/apu_test/rom_singles/3-irq_flag.nes|test_roms/apu_test/rom_singles/3-irq_flag_mesen.txt||
+1|apu/4-jitter|test_roms/apu_test/rom_singles/4-jitter.nes|test_roms/apu_test/rom_singles/4-jitter_mesen.txt||
+2|apu/5-len_timing|test_roms/apu_test/rom_singles/5-len_timing.nes|test_roms/apu_test/rom_singles/5-len_timing_mesen.txt||
+0|apu/6-irq_flag_timing|test_roms/apu_test/rom_singles/6-irq_flag_timing.nes|test_roms/apu_test/rom_singles/6-irq_flag_timing_mesen.txt||
+1|apu/7-dmc_basics|test_roms/apu_test/rom_singles/7-dmc_basics.nes|test_roms/apu_test/rom_singles/7-dmc_basics_mesen.txt||
+1|apu/8-dmc_rates|test_roms/apu_test/rom_singles/8-dmc_rates.nes|test_roms/apu_test/rom_singles/8-dmc_rates_mesen.txt||
+0|dmc/buffer_retained|test_roms/dmc_tests/buffer_retained.nes|test_roms/dmc_tests/buffer_retained_mesen.txt||
+1|dmcread/dma_2007_read|test_roms/dmc_dma_during_read4/dma_2007_read.nes|test_roms/dmc_dma_during_read4/dma_2007_read_mesen.txt||
+0|dmcread/dma_2007_write|test_roms/dmc_dma_during_read4/dma_2007_write.nes|test_roms/dmc_dma_during_read4/dma_2007_write_mesen.txt||
+0|dmcread/dma_4016_read|test_roms/dmc_dma_during_read4/dma_4016_read.nes|test_roms/dmc_dma_during_read4/dma_4016_read_mesen.txt||
+1|dmcread/double_2007_read|test_roms/dmc_dma_during_read4/double_2007_read.nes|test_roms/dmc_dma_during_read4/double_2007_read_mesen.txt||
+1|dmcread/read_write_2007|test_roms/dmc_dma_during_read4/read_write_2007.nes|test_roms/dmc_dma_during_read4/read_write_2007_mesen.txt||
+0|dmc/latency|test_roms/dmc_tests/latency.nes|test_roms/dmc_tests/latency_mesen.txt||
+0|dmc/status|test_roms/dmc_tests/status.nes|test_roms/dmc_tests/status_mesen.txt||
+0|dmc/status_irq|test_roms/dmc_tests/status_irq.nes|test_roms/dmc_tests/status_irq_mesen.txt||
+2|sprdma/sprdma_and_dmc_dma|test_roms/sprdma_and_dmc_dma/sprdma_and_dmc_dma.nes|test_roms/sprdma_and_dmc_dma/sprdma_and_dmc_dma_mesen.txt||
+2|sprdma/sprdma_and_dmc_dma_512|test_roms/sprdma_and_dmc_dma/sprdma_and_dmc_dma_512.nes|test_roms/sprdma_and_dmc_dma/sprdma_and_dmc_dma_512_mesen.txt||
+1|apureset/4015_cleared|test_roms/apu_reset/4015_cleared.nes|test_roms/apu_reset/4015_cleared_mesen.txt|-r 1129161|
+1|apureset/4017_timing|test_roms/apu_reset/4017_timing.nes|test_roms/apu_reset/4017_timing_mesen.txt|-r 1367406|
+1|apureset/4017_written|test_roms/apu_reset/4017_written.nes|test_roms/apu_reset/4017_written_mesen.txt|-r 1188721 -r 1129161|
+1|apureset/irq_flag_cleared|test_roms/apu_reset/irq_flag_cleared.nes|test_roms/apu_reset/irq_flag_cleared_mesen.txt|-r 950479|
+1|apureset/len_ctrs_enabled|test_roms/apu_reset/len_ctrs_enabled.nes|test_roms/apu_reset/len_ctrs_enabled_mesen.txt|-r 1039819|
+1|apureset/works_immediately|test_roms/apu_reset/works_immediately.nes|test_roms/apu_reset/works_immediately_mesen.txt|-r 980258|
+0|apu05/01.len_ctr|test_roms/blargg_apu_2005.07.30/01.len_ctr.nes|test_roms/blargg_apu_2005.07.30/01.len_ctr_mesen.txt||
+0|apu05/02.len_table|test_roms/blargg_apu_2005.07.30/02.len_table.nes|test_roms/blargg_apu_2005.07.30/02.len_table_mesen.txt||
+1|apu05/03.irq_flag|test_roms/blargg_apu_2005.07.30/03.irq_flag.nes|test_roms/blargg_apu_2005.07.30/03.irq_flag_mesen.txt||
+1|apu05/04.clock_jitter|test_roms/blargg_apu_2005.07.30/04.clock_jitter.nes|test_roms/blargg_apu_2005.07.30/04.clock_jitter_mesen.txt||
+0|apu05/05.len_timing_mode0|test_roms/blargg_apu_2005.07.30/05.len_timing_mode0.nes|test_roms/blargg_apu_2005.07.30/05.len_timing_mode0_mesen.txt||
+0|apu05/06.len_timing_mode1|test_roms/blargg_apu_2005.07.30/06.len_timing_mode1.nes|test_roms/blargg_apu_2005.07.30/06.len_timing_mode1_mesen.txt||
+0|apu05/07.irq_flag_timing|test_roms/blargg_apu_2005.07.30/07.irq_flag_timing.nes|test_roms/blargg_apu_2005.07.30/07.irq_flag_timing_mesen.txt||
+1|apu05/08.irq_timing|test_roms/blargg_apu_2005.07.30/08.irq_timing.nes|test_roms/blargg_apu_2005.07.30/08.irq_timing_mesen.txt||
+1|apu05/09.reset_timing|test_roms/blargg_apu_2005.07.30/09.reset_timing.nes|test_roms/blargg_apu_2005.07.30/09.reset_timing_mesen.txt||
+0|apu05/10.len_halt_timing|test_roms/blargg_apu_2005.07.30/10.len_halt_timing.nes|test_roms/blargg_apu_2005.07.30/10.len_halt_timing_mesen.txt||
+0|apu05/11.len_reload_timing|test_roms/blargg_apu_2005.07.30/11.len_reload_timing.nes|test_roms/blargg_apu_2005.07.30/11.len_reload_timing_mesen.txt||
+1|sprhit05/01.basics|test_roms/sprite_hit_tests_2005.10.05/01.basics.nes|test_roms/sprite_hit_tests_2005.10.05/01.basics_mesen.txt||
+1|sprhit05/02.alignment|test_roms/sprite_hit_tests_2005.10.05/02.alignment.nes|test_roms/sprite_hit_tests_2005.10.05/02.alignment_mesen.txt||
+1|sprhit05/03.corners|test_roms/sprite_hit_tests_2005.10.05/03.corners.nes|test_roms/sprite_hit_tests_2005.10.05/03.corners_mesen.txt||
+0|sprhit05/04.flip|test_roms/sprite_hit_tests_2005.10.05/04.flip.nes|test_roms/sprite_hit_tests_2005.10.05/04.flip_mesen.txt||
+0|sprhit05/05.left_clip|test_roms/sprite_hit_tests_2005.10.05/05.left_clip.nes|test_roms/sprite_hit_tests_2005.10.05/05.left_clip_mesen.txt||
+0|sprhit05/06.right_edge|test_roms/sprite_hit_tests_2005.10.05/06.right_edge.nes|test_roms/sprite_hit_tests_2005.10.05/06.right_edge_mesen.txt||
+1|sprhit05/07.screen_bottom|test_roms/sprite_hit_tests_2005.10.05/07.screen_bottom.nes|test_roms/sprite_hit_tests_2005.10.05/07.screen_bottom_mesen.txt||
+1|sprhit05/08.double_height|test_roms/sprite_hit_tests_2005.10.05/08.double_height.nes|test_roms/sprite_hit_tests_2005.10.05/08.double_height_mesen.txt||
+1|sprhit05/09.timing_basics|test_roms/sprite_hit_tests_2005.10.05/09.timing_basics.nes|test_roms/sprite_hit_tests_2005.10.05/09.timing_basics_mesen.txt||
+1|sprhit05/10.timing_order|test_roms/sprite_hit_tests_2005.10.05/10.timing_order.nes|test_roms/sprite_hit_tests_2005.10.05/10.timing_order_mesen.txt||
+1|sprhit05/11.edge_timing|test_roms/sprite_hit_tests_2005.10.05/11.edge_timing.nes|test_roms/sprite_hit_tests_2005.10.05/11.edge_timing_mesen.txt||
+1|joy3/count_errors_fast|test_roms/read_joy3/count_errors_fast.nes|test_roms/read_joy3/count_errors_fast_mesen.txt||
+0|joy3/count_errors|test_roms/read_joy3/count_errors.nes|test_roms/read_joy3/count_errors_mesen.txt||
+3|joy3/test_buttons|test_roms/read_joy3/test_buttons.nes|test_roms/read_joy3/test_buttons_mesen.txt|--input test_roms/read_joy3/test_buttons_input.txt|buttons pressed in Mesen: input recovered by regression/input_from_log.py
+2|joy3/thorough_test|test_roms/read_joy3/thorough_test.nes|test_roms/read_joy3/thorough_test_mesen.txt||
+3|vblnmi/1.frame_basics|test_roms/vbl_nmi_timing/1.frame_basics.nes|test_roms/vbl_nmi_timing/1.frame_basics_mesen.txt||
+2|vblnmi/2.vbl_timing|test_roms/vbl_nmi_timing/2.vbl_timing.nes|test_roms/vbl_nmi_timing/2.vbl_timing_mesen.txt||
+1|vblnmi/3.even_odd_frames|test_roms/vbl_nmi_timing/3.even_odd_frames.nes|test_roms/vbl_nmi_timing/3.even_odd_frames_mesen.txt||
+1|vblnmi/4.vbl_clear_timing|test_roms/vbl_nmi_timing/4.vbl_clear_timing.nes|test_roms/vbl_nmi_timing/4.vbl_clear_timing_mesen.txt||
+2|vblnmi/5.nmi_suppression|test_roms/vbl_nmi_timing/5.nmi_suppression.nes|test_roms/vbl_nmi_timing/5.nmi_suppression_mesen.txt||
+2|vblnmi/6.nmi_disable|test_roms/vbl_nmi_timing/6.nmi_disable.nes|test_roms/vbl_nmi_timing/6.nmi_disable_mesen.txt||
+1|vblnmi/7.nmi_timing|test_roms/vbl_nmi_timing/7.nmi_timing.nes|test_roms/vbl_nmi_timing/7.nmi_timing_mesen.txt||
+11|cpu5/cpu|test_roms/nes-test-roms/blargg_nes_cpu_test5/cpu.nes|test_roms/nes-test-roms/blargg_nes_cpu_test5/cpu_mesen.txt||
+6|cpu5/official|test_roms/nes-test-roms/blargg_nes_cpu_test5/official.nes|test_roms/nes-test-roms/blargg_nes_cpu_test5/official_mesen.txt||
+0|ppu/scanline|test_roms/nes-test-roms/scanline/scanline.nes|test_roms/nes-test-roms/scanline/scanline_mesen.txt||
+2|nmisync/demo_ntsc|test_roms/nes-test-roms/nmi_sync/demo_ntsc.nes|test_roms/nes-test-roms/nmi_sync/demo_ntsc_mesen.txt||
+5|palette/full_palette|test_roms/nes-test-roms/full_palette/full_palette.nes|test_roms/nes-test-roms/full_palette/full_palette_mesen.txt||
+5|palette/full_palette_smooth|test_roms/nes-test-roms/full_palette/full_palette_smooth.nes|test_roms/nes-test-roms/full_palette/full_palette_smooth_mesen.txt||
+9|palette/flowing_palette|test_roms/nes-test-roms/full_palette/flowing_palette.nes|test_roms/nes-test-roms/full_palette/flowing_palette_mesen.txt||
+2|window/colorwin_ntsc|test_roms/nes-test-roms/window5/colorwin_ntsc.nes|test_roms/nes-test-roms/window5/colorwin_ntsc_mesen.txt||
+0|scroll/scroll_idle|test_roms/nes-test-roms/scrolltest/scroll.nes|test_roms/nes-test-roms/scrolltest/scroll_mesen.txt||known: Mesen accepts the $2000 write at cycle 22 (power-on warm-up); ONE ignores it and never gets NMI
+3|raster/RasterTest1|test_roms/nes-test-roms/other/RasterTest1.NES|test_roms/nes-test-roms/other/RasterTest1_mesen.txt||
+2|raster/RasterTest2|test_roms/nes-test-roms/other/RasterTest2.NES|test_roms/nes-test-roms/other/RasterTest2_mesen.txt||
+2|raster/RasterTest3|test_roms/nes-test-roms/other/RasterTest3.NES|test_roms/nes-test-roms/other/RasterTest3_mesen.txt||
+2|raster/RasterTest3a|test_roms/nes-test-roms/other/RasterTest3a.NES|test_roms/nes-test-roms/other/RasterTest3a_mesen.txt||
+2|raster/RasterTest3b|test_roms/nes-test-roms/other/RasterTest3b.NES|test_roms/nes-test-roms/other/RasterTest3b_mesen.txt||
+2|raster/RasterTest3c|test_roms/nes-test-roms/other/RasterTest3c.NES|test_roms/nes-test-roms/other/RasterTest3c_mesen.txt||
+2|raster/RasterTest3d|test_roms/nes-test-roms/other/RasterTest3d.NES|test_roms/nes-test-roms/other/RasterTest3d_mesen.txt||
+3|raster/RasterTest3e|test_roms/nes-test-roms/other/RasterTest3e.NES|test_roms/nes-test-roms/other/RasterTest3e_mesen.txt||
+0|raster/RasterDemo|test_roms/nes-test-roms/other/RasterDemo.NES|test_roms/nes-test-roms/other/RasterDemo_mesen.txt||known: $2006 writes at cycle 27412 (power-on warm-up) ignored by ONE, CHR-RAM upload misplaced; sprite 0 never hits
+3|raster/RasterChromaLuma|test_roms/nes-test-roms/other/RasterChromaLuma.NES|test_roms/nes-test-roms/other/RasterChromaLuma_mesen.txt||
+2|window/window2_ntsc|test_roms/nes-test-roms/other/window2_ntsc.nes|test_roms/nes-test-roms/other/window2_ntsc_mesen.txt||
+4|window/midscanline|test_roms/nes-test-roms/other/midscanline.nes|test_roms/nes-test-roms/other/midscanline_mesen.txt||
+1|mmc3/1-clocking|test_roms/nes-test-roms/mmc3_test_2/rom_singles/1-clocking.nes|test_roms/nes-test-roms/mmc3_test_2/rom_singles/1-clocking_mesen.txt||
+1|mmc3/2-details|test_roms/nes-test-roms/mmc3_test_2/rom_singles/2-details.nes|test_roms/nes-test-roms/mmc3_test_2/rom_singles/2-details_mesen.txt||
+1|mmc3/3-A12_clocking|test_roms/nes-test-roms/mmc3_test_2/rom_singles/3-A12_clocking.nes|test_roms/nes-test-roms/mmc3_test_2/rom_singles/3-A12_clocking_mesen.txt||
+5|mmc3/4-scanline_timing|test_roms/nes-test-roms/mmc3_test_2/rom_singles/4-scanline_timing.nes|test_roms/nes-test-roms/mmc3_test_2/rom_singles/4-scanline_timing_mesen.txt||
+0|mmc3/5-MMC3|test_roms/nes-test-roms/mmc3_test_2/rom_singles/5-MMC3.nes|test_roms/nes-test-roms/mmc3_test_2/rom_singles/5-MMC3_mesen.txt||
+1|mmc3/6-MMC3_alt|test_roms/nes-test-roms/mmc3_test_2/rom_singles/6-MMC3_alt.nes|test_roms/nes-test-roms/mmc3_test_2/rom_singles/6-MMC3_alt_mesen.txt||fails on screen (#2) in ONE and Mesen: it expects MMC3 revision A IRQs; both model revision B
+1|mmc3old/1-clocking|test_roms/nes-test-roms/mmc3_test/1-clocking.nes|test_roms/nes-test-roms/mmc3_test/1-clocking_mesen.txt||
+1|mmc3old/2-details|test_roms/nes-test-roms/mmc3_test/2-details.nes|test_roms/nes-test-roms/mmc3_test/2-details_mesen.txt||
+0|mmc3old/3-A12_clocking|test_roms/nes-test-roms/mmc3_test/3-A12_clocking.nes|test_roms/nes-test-roms/mmc3_test/3-A12_clocking_mesen.txt||
+4|mmc3old/4-scanline_timing|test_roms/nes-test-roms/mmc3_test/4-scanline_timing.nes|test_roms/nes-test-roms/mmc3_test/4-scanline_timing_mesen.txt||
+1|mmc3old/5-MMC3|test_roms/nes-test-roms/mmc3_test/5-MMC3.nes|test_roms/nes-test-roms/mmc3_test/5-MMC3_mesen.txt||
+1|mmc3old/6-MMC6|test_roms/nes-test-roms/mmc3_test/6-MMC6.nes|test_roms/nes-test-roms/mmc3_test/6-MMC6_mesen.txt||fails on screen (#3) in ONE and Mesen: MMC6 behavior, not implemented
+0|mmc3irq/1.Clocking|test_roms/nes-test-roms/mmc3_irq_tests/1.Clocking.nes|test_roms/nes-test-roms/mmc3_irq_tests/1.Clocking_mesen.txt||
+0|mmc3irq/2.Details|test_roms/nes-test-roms/mmc3_irq_tests/2.Details.nes|test_roms/nes-test-roms/mmc3_irq_tests/2.Details_mesen.txt||
+1|mmc3irq/3.A12_clocking|test_roms/nes-test-roms/mmc3_irq_tests/3.A12_clocking.nes|test_roms/nes-test-roms/mmc3_irq_tests/3.A12_clocking_mesen.txt||
+2|mmc3irq/4.Scanline_timing|test_roms/nes-test-roms/mmc3_irq_tests/4.Scanline_timing.nes|test_roms/nes-test-roms/mmc3_irq_tests/4.Scanline_timing_mesen.txt||
+0|mmc3irq/5.MMC3_rev_A|test_roms/nes-test-roms/mmc3_irq_tests/5.MMC3_rev_A.nes|test_roms/nes-test-roms/mmc3_irq_tests/5.MMC3_rev_A_mesen.txt||fails on screen (#3) in ONE and Mesen: expects revision A IRQs (passes in ONE with mapper.mmc3_irq = A)
+1|mmc3irq/6.MMC3_rev_B|test_roms/nes-test-roms/mmc3_irq_tests/6.MMC3_rev_B.nes|test_roms/nes-test-roms/mmc3_irq_tests/6.MMC3_rev_B_mesen.txt||
+1|mapper/mmc3bigchrram|test_roms/tepples/mmc3bigchrram.nes|test_roms/tepples/mmc3bigchrram_mesen.txt|--input test_roms/tepples/mmc3bigchrram_input.txt|NES 2.0 header, 32KB CHR-RAM; Start pressed in Mesen (input from regression/input_from_log.py)
+0|mapper/oam3_axrom|test_roms/nes-test-roms/other/oam3.nes|test_roms/nes-test-roms/other/oam3_mesen.txt||AxROM (7)
+17|mapper/240pee_uxrom|test_roms/nes-test-roms/240pee/240pee.nes|test_roms/nes-test-roms/240pee/240pee_mesen.txt|--input test_roms/nes-test-roms/240pee/240pee_input.txt|UxROM (2); menu navigated in Mesen (input from regression/input_from_log.py)
+13|mapper/240pee_bnrom|test_roms/nes-test-roms/240pee/240pee-bnrom.nes|test_roms/nes-test-roms/240pee/240pee-bnrom_mesen.txt|--input test_roms/nes-test-roms/240pee/240pee-bnrom_input.txt|BNROM (34); menu navigated in Mesen
+5|mapper/pcm_demo_uxrom|test_roms/nes-test-roms/other/PCM.demo.wgraphics.nes|test_roms/nes-test-roms/other/PCM.demo.wgraphics_mesen.txt||UxROM (2)
+2|mapper/colordreams_test001|test_roms/nes-test-roms/other/test001.nes|test_roms/nes-test-roms/other/test001_mesen.txt||Color Dreams (11)
+1|mapper/colordreams_nestopia|test_roms/nes-test-roms/other/nestopia.nes|test_roms/nes-test-roms/other/nestopia_mesen.txt||Color Dreams (11)
+1|mapper/colordreams_fceuxd|test_roms/nes-test-roms/other/fceuxd.nes|test_roms/nes-test-roms/other/fceuxd_mesen.txt||Color Dreams (11)
+1|mapper/colordreams_nintendulator|test_roms/nes-test-roms/other/nintendulator.nes|test_roms/nes-test-roms/other/nintendulator_mesen.txt||Color Dreams (11)
+26|game/battletoads_axrom|commercial_games/Battletoads (USA).nes|commercial_games/Battletoads (USA)_mesen.txt|--input commercial_games/battletoads_input.txt|AxROM (7); played in Mesen
+9|game/castlevania_uxrom|commercial_games/Castlevania (USA).nes|commercial_games/Castlevania (USA)_mesen.txt|--input commercial_games/castlevania_input.txt|UxROM (2); played in Mesen
+10|game/megaman_uxrom|commercial_games/Mega Man (USA).nes|commercial_games/Mega Man (USA)_mesen.txt|--input commercial_games/megaman_input.txt|UxROM (2); played in Mesen
+8|mapper/mmc5_mmc5test|test_roms/nes-test-roms/mmc5test/mmc5test.nes|test_roms/nes-test-roms/mmc5test/mmc5test_mesen.txt||MMC5 (5): scanline IRQ, the line split
+9|mapper/mmc5_mmc5test_v2|test_roms/nes-test-roms/mmc5test_v2/mmc5test.nes|test_roms/nes-test-roms/mmc5test_v2/mmc5test_mesen.txt|--input test_roms/nes-test-roms/mmc5test_v2/mmc5test_input.txt|MMC5 (5): CHR banks, sets A / B, ExRAM, fill mode; pressed in Mesen
+2|mapper/mmc5_exram|test_roms/nes-test-roms/exram/mmc5exram.nes|test_roms/nes-test-roms/exram/mmc5exram_mesen.txt||MMC5 (5): ExRAM
+16|game/castlevania3_mmc5|commercial_games/Castlevania III - Dracula's Curse (USA).nes|commercial_games/Castlevania_III_mesen.txt|--input commercial_games/castlevania3_input.txt|MMC5 (5); played in Mesen
+3|mapper/mmc5_firefly|test_roms/nes-test-roms/other/firefly.nes|test_roms/nes-test-roms/other/firefly_mesen.txt||MMC5 (5): scanline IRQ every frame
+33|game/banditkings_mmc5|commercial_games/Bandit Kings of Ancient China (USA).nes|commercial_games/Bandit Kings of Ancient China (USA)_mesen.txt|--no-sav --input commercial_games/banditkings_input.txt|MMC5 (5): ExRAM modes 1 and 2, PRG-RAM banks; played in Mesen
+25|game/gemfire_mmc5|commercial_games/Gemfire (USA).nes|commercial_games/Gemfire (USA)_mesen.txt|--no-sav --input commercial_games/gemfire_input.txt|MMC5 (5): extended attributes; played in Mesen
+27|game/romance3k2_mmc5|commercial_games/Romance of the Three Kingdoms II (USA).nes|commercial_games/Romance of the Three Kingdoms II (USA)_mesen.txt|--no-sav --input commercial_games/romance3k2_input.txt|MMC5 (5): extended attributes; played in Mesen
+4|game/smbduckhunt_gxrom|commercial_games/Super Mario Bros. + Duck Hunt (USA).nes|commercial_games/Super Mario Bros. + Duck Hunt (USA)_mesen.txt|--input commercial_games/smbduckhunt_input.txt|GxROM (66); played in Mesen
+10|game/duckhunt_zapper|commercial_games/Duck Hunt (World).nes|commercial_games/Duck Hunt (World)_mesen.txt|--input commercial_games/duckhunt_input.txt|Zapper on port 2 (NROM): aim recorded in Mesen by tools/mesen/zapper_record.lua, off-screen included; pad by input_from_log.py (DMC-shifted reads)
+25|game/hogansalley_zapper|commercial_games/Hogan's Alley (World).zip|commercial_games/Hogan's Alley (World)_mesen.txt|--input commercial_games/hogansalley_input.txt|Zapper on port 2 (NROM, in a ZIP): 8 shots, mouse off the picture twice; aim from tools/mesen/zapper_record.lua
+25|game/gumshoe_zapper|commercial_games/Gumshoe (USA, Europe).zip|commercial_games/Gumshoe (USA, Europe)_mesen.txt|--input commercial_games/gumshoe_input.txt|Zapper on port 2 (in a ZIP): 33 shots; aim from tools/mesen/zapper_record.lua
+25|game/operationwolf_zapper|commercial_games/Operation Wolf (USA) (Rev 0A).zip|commercial_games/Operation Wolf (USA) (Rev 0A)_mesen.txt|--input commercial_games/operationwolf_input.txt|Zapper on port 2 (in a ZIP): 34 shots, mouse off the picture twice; aim from tools/mesen/zapper_record.lua
+20|zapper/sweep|tests/zapper/sweep.nes|tests/zapper/sweep_mesen.txt|--input tests/zapper/sweep_input.txt|Zapper palette sweep ROM, page 0 (colors $00-$0B): the brightness rule (R+G+B of the color); aim from tools/mesen/zapper_record.lua
+30|zapper/sweep_all|tests/zapper/sweep.nes|tests/zapper/sweep_all_mesen.txt|--input tests/zapper/sweep_all_input.txt|Zapper palette sweep ROM, all 6 pages (all 64 colors): the brightness rule; pad A turns the pages; aim from tools/mesen/zapper_record.lua
+13|game/firehawk_camerica|commercial_games/Fire Hawk (USA) (Unl).nes|commercial_games/Fire Hawk (USA) (Unl)_mesen.txt|--input commercial_games/firehawk_input.txt|Camerica (71): one-screen mirroring from $9000; played in Mesen
+3|game/micromachines_camerica|commercial_games/Micro Machines (USA) (Unl).nes|commercial_games/Micro Machines (USA) (Unl)_mesen.txt|--input commercial_games/micromachines_input.txt|Camerica (71); played in Mesen. known: CPU state identical to the end; only 106 `BIT $2004` operand peeks differ (V:16 / V:28, dots 321-322: ONE shows secondary OAM[0], Mesen's debugger peek $FF; the real read gives the same N/V flags in both, and AccuracyCoin's hardware key returns OAM2[0] there, which ONE and Mesen both pass)
+8|game/krazykreatures_nina003|commercial_games/Krazy Kreatures (USA) (Unl).nes|commercial_games/Krazy Kreatures (USA) (Unl)_mesen.txt|--input commercial_games/krazykreatures_input.txt|NINA-003 (79); played in Mesen
+8|game/holydiver_irem74161|commercial_games/Holy Diver (Japan).nes|commercial_games/Holy Diver (Japan)_mesen.txt|--input commercial_games/holydiver_input.txt|Irem 74161 (78); played in Mesen
+14|game/pinbot_tqrom|commercial_games/Pin Bot (USA).nes|commercial_games/Pin Bot (USA)_mesen.txt|--input commercial_games/pinbot_input.txt|TQROM (119): CHR-ROM and CHR-RAM; played in Mesen
+11|game/playactionfootball_txsrom|commercial_games/NES Play Action Football (USA).nes|commercial_games/NES Play Action Football (USA)_mesen.txt|--config tests/four_score.cfg --input commercial_games/playactionfootball_input.txt|TxSROM (118): mirroring from the CHR banks; Four Score (Mesen has it for this game); played in Mesen
+14|game/startropics_mmc6|commercial_games/StarTropics (USA).nes|commercial_games/StarTropics (USA)_mesen.txt|--no-sav --input commercial_games/startropics_input.txt|MMC6 (4); played in Mesen
+55|game/startropics2_mmc6|commercial_games/Zoda's Revenge - StarTropics II (USA).nes|commercial_games/Zoda's Revenge - StarTropics II (USA)_mesen.txt|--no-sav --input commercial_games/startropics2_input.txt|MMC6 (4); played in Mesen
+1|mapper/mmc5_split_left|tests/exrom/pic_split_left.nes|tests/exrom/pic_split_left_mesen.txt||MMC5 (5): vertical split on the left
+1|mapper/mmc5_split_right|tests/exrom/pic_split_right.nes|tests/exrom/pic_split_right_mesen.txt||MMC5 (5): vertical split on the right
+0|mapper/mmc5_pcm|tests/exrom/mmc5pcm.nes|tests/exrom/mmc5pcm_mesen.txt||MMC5 (5): PCM IRQ, read mode, $5010 / $5015 reads (no Mesen log yet: skipped)
+2|mapper/mmc5_pic_split_scroll_a|tests/exrom/pic_split_scroll_a.nes|tests/exrom/pic_split_scroll_a_mesen.txt||MMC5 (5): vertical split, $5201 = 13, bank 5 (skipped until its Mesen log exists)
+2|mapper/mmc5_pic_split_scroll_b|tests/exrom/pic_split_scroll_b.nes|tests/exrom/pic_split_scroll_b_mesen.txt||MMC5 (5): vertical split, $5201 = 235, bank 9, right side (skipped until its Mesen log exists)
+2|mapper/mmc5_pic_exattr_scroll|tests/exrom/pic_exattr_scroll.nes|tests/exrom/pic_exattr_scroll_mesen.txt||MMC5 (5): extended attributes with the PPU scrolled (skipped until its Mesen log exists)
+2|mapper/mmc5_pic_chr1m|tests/exrom/pic_chr1m.nes|tests/exrom/pic_chr1m_mesen.txt||MMC5 (5): 1 MB CHR, upper bits $5130 (skipped until its Mesen log exists)
+2|mapper/mmc5_pic_chr1m_exattr|tests/exrom/pic_chr1m_exattr.nes|tests/exrom/pic_chr1m_exattr_mesen.txt||MMC5 (5): 1 MB CHR with extended attributes (skipped until its Mesen log exists)
+2|mapper/mmc5_pic_exattr|tests/exrom/pic_exattr.nes|tests/exrom/pic_exattr_mesen.txt||MMC5 (5): extended attributes (skipped until its Mesen log exists)
+2|mapper/mmc5_pic_split_8x16|tests/exrom/pic_split_8x16.nes|tests/exrom/pic_split_8x16_mesen.txt||MMC5 (5): the vertical split with 8x16 sprites (skipped until its Mesen log exists)
+2|mapper/mmc5_pic_split_mode1|tests/exrom/pic_split_mode1.nes|tests/exrom/pic_split_mode1_mesen.txt||MMC5 (5): the vertical split in ExRAM mode 1 (skipped until its Mesen log exists)
+2|mapper/mmc5_pic_split_wrap|tests/exrom/pic_split_wrap.nes|tests/exrom/pic_split_wrap_mesen.txt||MMC5 (5): the vertical split, $5201 = 238 (skipped until its Mesen log exists)
+2|mapper/mmc5_pic_chr1m_mode0|tests/exrom/pic_chr1m_mode0.nes|tests/exrom/pic_chr1m_mode0_mesen.txt||MMC5 (5): 1 MB CHR, 8 KB banks and $5130 (skipped until its Mesen log exists)
+2|mapper/mmc5_pic_chr1m_mode1|tests/exrom/pic_chr1m_mode1.nes|tests/exrom/pic_chr1m_mode1_mesen.txt||MMC5 (5): 1 MB CHR, 4 KB banks and $5130 (skipped until its Mesen log exists)
+2|mapper/mmc5_pic_chr1m_mode2|tests/exrom/pic_chr1m_mode2.nes|tests/exrom/pic_chr1m_mode2_mesen.txt||MMC5 (5): 1 MB CHR, 2 KB banks and $5130 (skipped until its Mesen log exists)
+9|game/gradius2_vrc4bd|commercial_games/Gradius II (Japan).nes|commercial_games/Gradius II (Japan)_mesen.txt|--input commercial_games/gradius2_input.txt|VRC4 (25): scanline IRQ, swap mode off; played in Mesen
+8|game/crisisforce_vrc2b|commercial_games/Crisis Force (Japan).nes|commercial_games/Crisis Force (Japan)_mesen.txt|--input commercial_games/crisisforce_input.txt|VRC4e (23): IRQ; played in Mesen
+8|game/batman_fme7|commercial_games/Batman - Return of the Joker (USA).nes|commercial_games/Batman - Return of the Joker (USA)_mesen.txt|--input commercial_games/batman_input.txt|Sunsoft FME-7 (69): cycle IRQ, $6000 bank; played in Mesen
+14|game/gimmick_fme7|commercial_games/Gimmick! (Japan).zip|commercial_games/Gimmick! (Japan)_mesen.txt|--input commercial_games/gimmick_input.txt|Sunsoft FME-7 (69) with 5B sound registers; played in Mesen (audio: ctest apu_gimmick5b)
+25|game/akumajou_vrc6|commercial_games/Akumajou Densetsu (Japan).zip|commercial_games/Akumajou Densetsu (Japan)_mesen.txt|--input commercial_games/akumajou_input.txt|VRC6 (24): banking, mirroring, IRQ, CPU side of the audio; played in Mesen (audio: ctest apu_akumajou)
+23|game/esperdream2_vrc6b|commercial_games/Esper Dream 2 - Aratanaru Tatakai (Japan).zip|commercial_games/Esper Dream 2 - Aratanaru Tatakai (Japan)_mesen.txt|--sav-in commercial_games/esperdream2_initial.sav --input commercial_games/esperdream2_input.txt|VRC6b (26); Mesen's recording began from a save: commercial_games/esperdream2_initial.sav is rebuilt by tools/mesen/ram_from_log.py; audio: ctest apu_esperdream2
+1|mapper/vrc6a_test|tests/vrc6/vrc6a.nes|tests/vrc6/vrc6a_mesen.txt||VRC6a (24) test ROM: $B003 mirroring for every value 0-63, the CHR modes, PRG banks (tests/vrc6/vrc6.s); the readbacks are in the trace
+1|mapper/vrc6b_test|tests/vrc6/vrc6b.nes|tests/vrc6/vrc6b_mesen.txt||VRC6b (26) test ROM: the same with A0/A1 swapped
+6|game/rollingthunder_n163|commercial_games/Rolling Thunder (Japan).zip|commercial_games/Rolling Thunder (Japan)_mesen.txt|--no-sav --input commercial_games/rollingthunder_input.txt|Namco 163 (19): banking, IRQ counter, chip RAM with the audio phase registers read back; played in Mesen
+13|game/finallap_n163|commercial_games/Final Lap (Japan).zip|commercial_games/Final Lap (Japan)_mesen.txt|--no-sav --input commercial_games/finallap_input.txt|Namco 163 (19); played in Mesen
+19|game/famista89_namco108|commercial_games/Famista '89 - Kaimaku Ban!! (Japan).zip|commercial_games/Famista '89 - Kaimaku Ban!! (Japan)_mesen.txt|--no-sav --input commercial_games/famista89_input.txt|Namco 108 (206): MMC3 bank registers only, header mirroring, no IRQ; played in Mesen
+19|game/familymahjong_namco108|commercial_games/Family Mahjong (Japan) (Rev A).zip|commercial_games/Family Mahjong (Japan) (Rev A)_mesen.txt|--no-sav --input commercial_games/familymahjong_input.txt|Namco 108 (206); played in Mesen
+1|mapper/n163_ciram_test|tests/namco163/n163.nes|tests/namco163/n163_mesen.txt||Namco 163 (19) test ROM: CHR banks $E0+ as CIRAM, $E800 bits 6-7, writes through $2007 (tests/namco163/n163.s); the readbacks are in the trace
+1|mapper/mmc3_fourscreen_test|tests/mmc3fs/mmc3fs.nes|tests/mmc3fs/mmc3fs_mesen.txt||MMC3 (4) with the four-screen flag: 4KB of cartridge name table RAM, $A000 ignored (tests/mmc3fs/mmc3fs.s); the readbacks are in the trace
+# RAMBO-1 (64) is out of the build until its clean-room rewrite (it is being rewritten): these lines are disabled.
+# 1|mapper/rambo1_a12_0|tests/rambo1/rambo1_0.nes|tests/rambo1/rambo1_0_mesen.txt||RAMBO-1 (64) A12 IRQ on every line, main loop taken BNE loop: IRQ latency per PPU/CPU phase (tests/rambo1/rambo1.s).
+# 1|mapper/rambo1_a12_1|tests/rambo1/rambo1_1.nes|tests/rambo1/rambo1_1_mesen.txt||RAMBO-1 (64) A12 IRQ on every line, main loop INC zp + JMP loop: IRQ latency per PPU/CPU phase (tests/rambo1/rambo1.s).
+# 1|mapper/rambo1_a12_2|tests/rambo1/rambo1_2.nes|tests/rambo1/rambo1_2_mesen.txt||RAMBO-1 (64) A12 IRQ on every line, main loop STA abs + JMP loop: IRQ latency per PPU/CPU phase (tests/rambo1/rambo1.s).
+# 1|mapper/rambo1_a12_3|tests/rambo1/rambo1_3.nes|tests/rambo1/rambo1_3_mesen.txt||RAMBO-1 (64) A12 IRQ on every line, main loop LDA abs + JMP loop: IRQ latency per PPU/CPU phase (tests/rambo1/rambo1.s).
+# 1|mapper/rambo1_a12_4|tests/rambo1/rambo1_4.nes|tests/rambo1/rambo1_4_mesen.txt||RAMBO-1 (64) A12 IRQ on every line, main loop INC abs + JMP loop: IRQ latency per PPU/CPU phase (tests/rambo1/rambo1.s).
+# 1|mapper/rambo1_a12_5|tests/rambo1/rambo1_5.nes|tests/rambo1/rambo1_5_mesen.txt||RAMBO-1 (64) A12 IRQ on every line, main loop NOP + JMP loop: IRQ latency per PPU/CPU phase (tests/rambo1/rambo1.s). known: identical except the first IRQ (the first rise after rendering starts comes 1 cycle earlier in Mesen)
+# 1|mapper/rambo1_a12_8|tests/rambo1/rambo1_8.nes|tests/rambo1/rambo1_8_mesen.txt||RAMBO-1 (64) A12 IRQ on every line, Skull & Crossbones' LDA + taken BEQ loop at every alignment (tests/rambo1/rambo1.s)
+# 1|mapper/rambo1_a12_9|tests/rambo1/rambo1_9.nes|tests/rambo1/rambo1_9_mesen.txt||RAMBO-1 (64) A12 IRQ on every line, BEQ * loop at every alignment (tests/rambo1/rambo1.s)
+# 1|mapper/rambo1_a12_10|tests/rambo1/rambo1_10.nes|tests/rambo1/rambo1_10_mesen.txt||RAMBO-1 (64) A12 IRQ on every line, 8x8 sprites (64 real ones) at $1000, LDA + BEQ loop at every alignment (tests/rambo1/rambo1.s)
+# 1|mapper/rambo1_a12_11|tests/rambo1/rambo1_11.nes|tests/rambo1/rambo1_11_mesen.txt||RAMBO-1 (64) as _10 with 8x16 sprites, odd and even tiles. known: the first IRQ (V:6) differs by one BEQ: the program enables rendering in the middle of line 6 and ONE's sprite evaluation then fills the secondary OAM differently from Mesen's (_19 is the same ROM with rendering started in vblank: identical)
+# 1|mapper/rambo1_a12_12|tests/rambo1/rambo1_12.nes|tests/rambo1/rambo1_12_mesen.txt||RAMBO-1 (64) as _10 with 8x8 sprites at $0000 and the background at $1000 (the rise comes from the background fetch)
+# 1|mapper/rambo1_a12_13|tests/rambo1/rambo1_13.nes|tests/rambo1/rambo1_13_mesen.txt||RAMBO-1 (64) as _10 with 8x16 sprites (even tiles) and the background at $1000. known: identical for 26.6k lines, then the first pre-render clock after a mid-line rendering start gives an IRQ in ONE but none in Mesen (_21 is the same ROM with rendering started in vblank: identical)
+# 1|mapper/rambo1_prerender_14|tests/rambo1/rambo1_14.nes|tests/rambo1/rambo1_14_mesen.txt||RAMBO-1 (64) IRQ clocked from the pre-render line, latch 0..7 in 16 frames: 8x8 sprites at $1000 (tests/rambo1/rambo1.s)
+# 1|mapper/rambo1_prerender_15|tests/rambo1/rambo1_15.nes|tests/rambo1/rambo1_15_mesen.txt||RAMBO-1 (64) IRQ clocked from the pre-render line, latch 0..7 in 16 frames: background at $1000 (tests/rambo1/rambo1.s)
+# 1|mapper/rambo1_prerender_16|tests/rambo1/rambo1_16.nes|tests/rambo1/rambo1_16_mesen.txt||RAMBO-1 (64) IRQ clocked from the pre-render line, latch 0..7 in 16 frames: 8x16 sprites (tests/rambo1/rambo1.s)
+# 1|mapper/rambo1_prerender_17|tests/rambo1/rambo1_17.nes|tests/rambo1/rambo1_17_mesen.txt||RAMBO-1 (64) IRQ clocked from the pre-render line, latch 0..7 in 16 frames: 8x16 sprites, background at $1000 (tests/rambo1/rambo1.s)
+# 1|mapper/rambo1_a12_18|tests/rambo1/rambo1_18.nes|tests/rambo1/rambo1_18_mesen.txt||RAMBO-1 (64) as _10 with rendering started at the beginning of vblank (tests/rambo1/rambo1.s)
+# 1|mapper/rambo1_a12_19|tests/rambo1/rambo1_19.nes|tests/rambo1/rambo1_19_mesen.txt||RAMBO-1 (64) as _11 with rendering started at the beginning of vblank (tests/rambo1/rambo1.s)
+# 1|mapper/rambo1_a12_20|tests/rambo1/rambo1_20.nes|tests/rambo1/rambo1_20_mesen.txt||RAMBO-1 (64) as _12 with rendering started at the beginning of vblank (tests/rambo1/rambo1.s)
+# 1|mapper/rambo1_a12_21|tests/rambo1/rambo1_21.nes|tests/rambo1/rambo1_21_mesen.txt||RAMBO-1 (64) as _13 with rendering started at the beginning of vblank (tests/rambo1/rambo1.s)
+# 1|mapper/rambo1_cycle|tests/rambo1/rambo1_6.nes|tests/rambo1/rambo1_6_mesen.txt||RAMBO-1 (64) cycle-mode IRQ every 84 CPU cycles (tests/rambo1/rambo1.s)
+# 1|mapper/rambo1_reload|tests/rambo1/rambo1_7.nes|tests/rambo1/rambo1_7_mesen.txt||RAMBO-1 (64) IRQ counter reload by latch value 0, 1, 2, 3, 10, 200, clocked through $2006 (tests/rambo1/rambo1.s)
+22|game/gauntlet_mmc3_fourscreen|commercial_games/Gauntlet (USA).nes|commercial_games/Gauntlet (USA)_mesen.txt|--no-sav --input commercial_games/gauntlet_input.txt|MMC3 (4) four-screen: 4KB of cartridge name table RAM; two players played in Mesen
+12|game/impossiblemission2_nina001|commercial_games/Impossible Mission II (USA) (Unl).nes|commercial_games/Impossible Mission II (USA) (Unl)_mesen.txt|--no-sav --input commercial_games/impossiblemission2_input.txt|NINA-001 (34 with CHR-ROM): PRG at $7FFD, 4KB CHR banks at $7FFE / $7FFF, PRG-RAM; played in Mesen
+30|game/smb_tetris_nwc_mapper37|commercial_games/Super Mario Bros. + Tetris + Nintendo World Cup (Europe) (Rev A).zip|commercial_games/Super Mario Bros. + Tetris + Nintendo World Cup (Europe) (Rev A)_mesen.txt|--no-sav --input commercial_games/smb_tetris_nwc_input.txt|MMC3 multicart (37): outer register at $6000, three games; played in Mesen. known: the Europe ROM runs PAL in Mesen (3.2 dots per CPU cycle, 312 lines), ONE is NTSC only: the trace diverges at the first vblank wait (line 7338); the PRG banking was checked offline against the trace's instruction bytes (every one matches)
+30|game/spikevball_nwc_mapper47|commercial_games/Super Spike V'Ball + Nintendo World Cup (USA).zip|commercial_games/Super Spike V'Ball + Nintendo World Cup (USA)_mesen.txt|--no-sav --config tests/four_score.cfg --input commercial_games/spikevball_nwc_input.txt|MMC3 multicart (47): outer bit at $6000, two games; Mesen has the Four Score on for it; played in Mesen
+1|game/nwc1990_nesevent|commercial_games/Nintendo World Championships 1990 (USA).zip|commercial_games/Nintendo World Championships 1990 (USA)_mesen.txt|--no-sav --input commercial_games/nwc1990_input.txt|NES-EVENT (105): MMC1 with a game-select state, 8KB work RAM and a countdown timer (the timer IRQ is not in this 570k-line trace); the title screen only, no buttons
+9|game/deadlytowers_nina001|commercial_games/Deadly Towers (USA).zip|commercial_games/Deadly Towers (USA)_mesen.txt|--no-sav --input commercial_games/deadlytowers_input.txt|NINA-001 (34 with CHR-ROM), Deadly Towers; played in Mesen
+6|game/fireemblem_mmc4|commercial_games/Fire Emblem - Ankoku Ryuu to Hikari no Tsurugi (Japan).zip|commercial_games/Fire Emblem - Ankoku Ryuu to Hikari no Tsurugi (Japan)_mesen.txt|--no-sav --input commercial_games/fireemblem_input.txt|MMC4 (10); played in Mesen. known: identical for 5.7M lines (17.7M cycles), then the 2nd DPCM fetch of a sample arrives 1 cycle later in ONE than in Mesen (line 5746180), so ONE's DMC DMA halts on the next opcode fetch instead of the $4016 read and the controller bit order differs (the DMC rate-write and refill-delay variants all do worse)
+22|game/goemongaiden2_vrc4ac|commercial_games/Ganbare Goemon Gaiden 2 - Tenka no Zaihou (Japan).zip|commercial_games/Ganbare Goemon Gaiden 2 - Tenka no Zaihou (Japan)_mesen.txt|--no-sav --input commercial_games/goemongaiden2_input.txt|VRC4 (21): IRQ, A1/A2 + A6/A7 register lines; played in Mesen
+25|game/waiwai2_vrc4ac|commercial_games/Wai Wai World 2 - SOS!! Paseri Jou (Japan).zip|commercial_games/Wai Wai World 2 - SOS!! Paseri Jou (Japan)_mesen.txt|--no-sav --input commercial_games/waiwai2_input.txt|VRC4 (21): $9004 bit 0 switches the work RAM off; played in Mesen
+10|game/twinbee3_vrc2a|commercial_games/TwinBee 3 - Poko Poko Daimaou (Japan).zip|commercial_games/TwinBee 3 - Poko Poko Daimaou (Japan)_mesen.txt|--no-sav --input commercial_games/twinbee3_input.txt|VRC2a (22): A1/A0 swapped register lines, CHR bank shift; played in Mesen
+18|game/pennantrace_vrc2a|commercial_games/Ganbare Pennant Race! (Japan).zip|commercial_games/Ganbare Pennant Race! (Japan)_mesen.txt|--no-sav --input commercial_games/pennantrace_input.txt|VRC2a (22); played in Mesen
+# 12|game/shinobi_rambo1|commercial_games/Shinobi (USA) (Unl).zip|commercial_games/Shinobi (USA) (Unl)_mesen.txt|--no-sav --input commercial_games/shinobi_input.txt|Tengen RAMBO-1 (64); played in Mesen
+# 15|game/digdug2_rambo1|commercial_games/Dig Dug II (Japan).zip|commercial_games/Dig Dug II (Japan)_mesen.txt|--no-sav --input commercial_games/digdug2_input.txt|Tengen RAMBO-1 (64): 32KB PRG, CHR-ROM 8KB; played in Mesen
+# 14|game/roadrunner_rambo1|commercial_games/Road Runner (USA) (Unl).zip|commercial_games/Road Runner (USA) (Unl)_mesen.txt|--no-sav --input commercial_games/roadrunner_input.txt|Tengen RAMBO-1 (64); played in Mesen
+# 5|game/skullcrossbones_rambo1|commercial_games/Skull & Crossbones (USA) (Unl).zip|commercial_games/Skull & Crossbones (USA) (Unl)_mesen.txt|--no-sav --input commercial_games/skullcrossbones_input.txt|RAMBO-1 (64) IRQ-heavy (A12 and every-4th-cycle modes); played in Mesen. known: identical for 9.3M of 20.4M lines, then an interrupt differs by a few cycles (unexplained; see the known: notes of rambo1_a12_11 / _13)
+# 5|game/klax_rambo1|commercial_games/Klax (USA) (Unl).zip|commercial_games/Klax (USA) (Unl)_mesen.txt|--no-sav --input commercial_games/klax_input.txt|RAMBO-1 (64), A12 IRQ; played in Mesen. known: identical for 10.2M of 17.6M lines, then an interrupt differs by a few cycles (unexplained)
+# 9|game/xybots_rambo1|commercial_games/Xybots (USA) (Proto) (Unl).zip|commercial_games/Xybots (USA) (Proto) (Unl)_mesen.txt|--no-sav --input commercial_games/xybots_input.txt|RAMBO-1 (64), IRQ; played in Mesen. known: identical for 20.3M of 31.7M lines, then an interrupt differs by a few cycles (unexplained)
+9|game/goonies_jaleco87|commercial_games/Goonies (Japan).zip|commercial_games/Goonies (Japan)_mesen.txt|--no-sav --input commercial_games/goonies_input.txt|Jaleco/Konami CHR swap (87); played in Mesen
+18|game/kamenriderclub_bandai74161|commercial_games/Kamen Rider Club (Japan).zip|commercial_games/Kamen Rider Club (Japan)_mesen.txt|--no-sav --input commercial_games/kamenriderclub_input.txt|Bandai 74161/32 (70); played in Mesen
+8|game/seicross_cnrom185|commercial_games/Seicross (Japan).zip|commercial_games/Seicross (Japan)_mesen.txt|--no-sav --input commercial_games/seicross_input.txt|CNROM with copy protection (185): Seicross tries $21 then $20; known Mesen quirk: an open CHR read gives $01; played in Mesen
+8|game/atlantis_sunsoft1|commercial_games/Atlantis no Nazo (Japan).zip|commercial_games/Atlantis no Nazo (Japan)_mesen.txt|--no-sav --input commercial_games/atlantis_input.txt|Sunsoft 1 (184); played in Mesen
+15|game/dragonspirit_namco88|commercial_games/Dragon Spirit - Aratanaru Densetsu (Japan).zip|commercial_games/Dragon Spirit - Aratanaru Densetsu (Japan)_mesen.txt|--no-sav --input commercial_games/dragonspirit_input.txt|Namco 108 with CHR A16 (88); played in Mesen
+20|game/moeropro_jaleco86|commercial_games/Moero!! Pro Yakyuu (Japan) (Rev 3).zip|commercial_games/Moero!! Pro Yakyuu (Japan) (Rev 3)_mesen.txt|--no-sav --input commercial_games/moeropro_input.txt|Jaleco JF-13 (86); played in Mesen
+9|game/totalfunpak_nina006|commercial_games/Total Funpak (Australia) (Unl).zip|commercial_games/Total Funpak (Australia) (Unl)_mesen.txt|--no-sav --input commercial_games/totalfunpak_input.txt|NINA-03/06 multicart (113); played in Mesen
+24|game/poker2_sachen243|commercial_games/Poker II (Asia) (Unl).zip|commercial_games/Poker II (Asia) (Unl)_mesen.txt|--no-sav --input commercial_games/poker2_input.txt|Sachen 74LS374N (243); played in Mesen
+18|game/quattrosports_quattro|commercial_games/Quattro Sports (USA) (Unl).zip|commercial_games/Quattro Sports (USA) (Unl)_mesen.txt|--no-sav --input commercial_games/quattrosports_input.txt|Camerica Quattro (232); played in Mesen
+16|game/bubblebobble2_tc0190|commercial_games/Bubble Bobble 2 (Japan).zip|commercial_games/Bubble Bobble 2 (Japan)_mesen.txt|--no-sav --input commercial_games/bubblebobble2_input.txt|Taito TC0190 (33); played in Mesen
+18|game/imagefight_g101|commercial_games/Image Fight (Japan).zip|commercial_games/Image Fight (Japan)_mesen.txt|--no-sav --input commercial_games/imagefight_input.txt|Irem G-101 (32); Mesen has 8KB work RAM at $6000; played in Mesen
+23|game/majorleague_g101|commercial_games/Major League (Japan).zip|commercial_games/Major League (Japan)_mesen.txt|--no-sav --input commercial_games/majorleague_input.txt|Irem G-101 (32), Major League; played in Mesen
+10|game/goemon1_vrc1|commercial_games/Ganbare Goemon! - Karakuri Douchuu (Japan).zip|commercial_games/Ganbare Goemon! - Karakuri Douchuu (Japan)_mesen.txt|--no-sav --input commercial_games/goemon1_input.txt|Konami VRC1 (75); played in Mesen
+18|game/dbzgaiden_bandaifcg|commercial_games/Dragon Ball Z Gaiden - Saiya Jin Zetsumetsu Keikaku (Japan).zip|commercial_games/Dragon Ball Z Gaiden - Saiya Jin Zetsumetsu Keikaku (Japan)_mesen.txt|--no-sav --input commercial_games/dbzgaiden_input.txt|Bandai FCG (16) with the 24C02 on $800D / $6000; played in Mesen
+24|game/dbz2_bandaifcg|commercial_games/Dragon Ball Z II - Gekishin Freeza!! (Japan) (Rev 1).zip|commercial_games/Dragon Ball Z II - Gekishin Freeza!! (Japan) (Rev 1)_mesen.txt|--no-sav --input commercial_games/dbz2_input.txt|Bandai FCG (16), CHR-ROM; played in Mesen
+15|game/datach_battlerush_bandaifcg|commercial_games/Datach - Battle Rush - Build Up Robot Tournament (Japan).zip|commercial_games/Datach - Battle Rush - Build Up Robot Tournament (Japan)_mesen.txt|--no-sav --input commercial_games/datach_input.txt|Bandai FCG (16 in the header), CHR-RAM, Datach; played in Mesen. known: identical for 14.97M lines (81%), then Mesen has a sprite 0 hit at V:143 that ONE does not (cause unknown; the game also writes CHR regs 0/8 that Mesen seems to ignore)

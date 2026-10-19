@@ -1,0 +1,145 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": { "major": 3, "minor": 21, "patch": 0 },
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": { "CMAKE_EXPORT_COMPILE_COMMANDS": "ON" }
+    },
+    {
+      "name": "linux-debug",
+      "displayName": "Linux Debug (GCC/Clang, sanitizers)",
+      "inherits": "base",
+      "condition": { "type": "notEquals", "lhs": "${hostSystemName}", "rhs": "Windows" },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "ONE_ENABLE_SANITIZERS": "ON",
+        "ONE_WARNINGS_AS_ERRORS": "ON"
+      }
+    },
+    {
+      "name": "linux-release",
+      "displayName": "Linux Release",
+      "inherits": "base",
+      "condition": { "type": "notEquals", "lhs": "${hostSystemName}", "rhs": "Windows" },
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
+    },
+    {
+      "name": "linux-debugger",
+      "displayName": "Linux Release + one-debugger (Dear ImGui)",
+      "inherits": "base",
+      "condition": { "type": "notEquals", "lhs": "${hostSystemName}", "rhs": "Windows" },
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "RelWithDebInfo", "ONE_BUILD_DEBUGGER": "ON" }
+    },
+    {
+      "name": "headless",
+      "displayName": "Headless (no SDL2) Release - for tests and traces",
+      "inherits": "base",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release", "ONE_ENABLE_SDL2": "OFF" }
+    },
+    {
+      "name": "windows-msvc",
+      "displayName": "Windows MSVC (the newest Visual Studio installed, SDL2 downloaded)",
+      "inherits": "base",
+      "architecture": "x64",
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" },
+      "cacheVariables": { "ONE_FETCH_SDL2": "ON" }
+    },
+    {
+      "name": "windows-mingw",
+      "displayName": "Windows MinGW-w64 (MSYS2 UCRT64, SDL2 from pacman)",
+      "inherits": "base",
+      "generator": "Ninja",
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" },
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release", "CMAKE_C_COMPILER": "gcc" }
+    },
+    {
+      "name": "windows-cross",
+      "displayName": "Cross-compile for Windows from Linux (MinGW-w64, SDL2 downloaded)",
+      "inherits": "base",
+      "toolchainFile": "${sourceDir}/cmake/toolchains/mingw-w64-x86_64.cmake",
+      "condition": { "type": "notEquals", "lhs": "${hostSystemName}", "rhs": "Windows" },
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release", "ONE_FETCH_SDL2": "ON" }
+    },
+    {
+      "name": "windows-cross-debugger",
+      "displayName": "one.exe + one-debugger.exe for Windows, cross-compiled from Linux (MinGW-w64, SDL2 downloaded)",
+      "inherits": "windows-cross",
+      "cacheVariables": { "ONE_BUILD_DEBUGGER": "ON", "CMAKE_CROSSCOMPILING_EMULATOR": "wine" }
+    },
+    {
+      "name": "windows-mingw-debugger",
+      "displayName": "one.exe + one-debugger.exe, MinGW-w64 (MSYS2 UCRT64)",
+      "inherits": "windows-mingw",
+      "cacheVariables": { "ONE_BUILD_DEBUGGER": "ON" }
+    },
+    {
+      "name": "windows-msvc-debugger",
+      "displayName": "one.exe + one-debugger.exe, the newest Visual Studio installed",
+      "inherits": "windows-msvc",
+      "cacheVariables": { "ONE_BUILD_DEBUGGER": "ON" }
+    },
+    {
+      "name": "libretro",
+      "displayName": "libretro core only (one_libretro.so: no SDL2, no menu)",
+      "inherits": "base",
+      "condition": { "type": "notEquals", "lhs": "${hostSystemName}", "rhs": "Windows" },
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release", "ONE_BUILD_LIBRETRO": "ON", "ONE_ENABLE_SDL2": "OFF", "ONE_BUILD_GUI": "OFF" }
+    },
+    {
+      "name": "windows-cross-libretro",
+      "displayName": "libretro core for Windows (one_libretro.dll), cross-compiled from Linux with MinGW-w64",
+      "inherits": "base",
+      "toolchainFile": "${sourceDir}/cmake/toolchains/mingw-w64-x86_64.cmake",
+      "condition": { "type": "notEquals", "lhs": "${hostSystemName}", "rhs": "Windows" },
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release", "ONE_BUILD_LIBRETRO": "ON", "ONE_ENABLE_SDL2": "OFF", "ONE_BUILD_GUI": "OFF" }
+    },
+    {
+      "name": "windows-msvc-libretro",
+      "displayName": "libretro core for Windows (one_libretro.dll), the newest Visual Studio installed",
+      "inherits": "base",
+      "architecture": "x64",
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" },
+      "cacheVariables": { "ONE_BUILD_LIBRETRO": "ON", "ONE_ENABLE_SDL2": "OFF", "ONE_BUILD_GUI": "OFF" }
+    }
+  ],
+  "buildPresets": [
+    { "name": "libretro",             "configurePreset": "libretro", "targets": ["one_libretro"] },
+    { "name": "windows-cross-libretro", "configurePreset": "windows-cross-libretro", "targets": ["one_libretro"] },
+    { "name": "windows-msvc-libretro",  "configurePreset": "windows-msvc-libretro", "configuration": "Release", "targets": ["one_libretro", "libretro_host"] },
+    { "name": "linux-debug",   "configurePreset": "linux-debug" },
+    { "name": "linux-release", "configurePreset": "linux-release" },
+    { "name": "linux-debugger", "configurePreset": "linux-debugger" },
+    { "name": "headless",      "configurePreset": "headless" },
+    { "name": "windows-msvc",  "configurePreset": "windows-msvc", "configuration": "Release" },
+    { "name": "windows-mingw", "configurePreset": "windows-mingw" },
+    { "name": "windows-cross", "configurePreset": "windows-cross" },
+    { "name": "windows-cross-debugger", "configurePreset": "windows-cross-debugger" },
+    { "name": "windows-mingw-debugger", "configurePreset": "windows-mingw-debugger" },
+    { "name": "windows-msvc-debugger", "configurePreset": "windows-msvc-debugger", "configuration": "Release" }
+  ],
+  "testPresets": [
+    {
+      "name": "base-test",
+      "hidden": true,
+      "output": { "outputOnFailure": true },
+      "filter": { "include": { "label": "smoke" } }
+    },
+    { "name": "linux-debug",   "inherits": "base-test", "configurePreset": "linux-debug" },
+    { "name": "linux-release", "inherits": "base-test", "configurePreset": "linux-release" },
+    { "name": "linux-debugger", "inherits": "base-test", "configurePreset": "linux-debugger" },
+    { "name": "headless",      "inherits": "base-test", "configurePreset": "headless" },
+    { "name": "windows-msvc",  "inherits": "base-test", "configurePreset": "windows-msvc", "configuration": "Release" },
+    { "name": "windows-mingw", "inherits": "base-test", "configurePreset": "windows-mingw" },
+    {
+      "name": "windows-cross-debugger",
+      "inherits": "base-test",
+      "configurePreset": "windows-cross-debugger",
+      "filter": { "include": { "label": "smoke" },
+                  "exclude": { "name": "^(zapper_sweep|zapper_mesen|nestest|clang_format|debugger_mapper_exrom_|debugger_search_stretch|debugger_screenshot|debugger_sprite_limit|debugger_wbg|settings_table|cheats_per_game|zip_trace|savestate_roundtrip|version_consistency|ppu_catchup)" } },
+      "environment": { "WINEDEBUG": "-all", "WINEPREFIX": "${sourceDir}/build/wineprefix" }
+    }
+  ]
+}

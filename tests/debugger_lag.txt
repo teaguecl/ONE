@@ -1,0 +1,22 @@
+# lag frame counter (lag) on tests/lag/lag.nes (run by ctest: debugger_lag; the program: make_rom.py): its NMI handler
+# polls the controller on three frames in four, so any 40 frames hold exactly 10 lag frames
+fs 10
+lag reset
+!assert lag 0
+fs 40
+!assert lag 10
+lag
+# a save state brings the count back (the save runs to the next frame: 11, this ROM being what it is)
+savestate save 1
+!assert lag 11
+fs 8
+!assert lag min 13
+savestate load 1
+!assert lag 11
+# a soft reset does not zero it, 'lag reset' does
+reset
+!assert lag min 10
+lag reset
+!assert lag 0
+lag on
+lag off

@@ -1,0 +1,44 @@
+# Build environment for ONE's Linux AppImage (tools/release.sh, target one-debugger-linux-x86_64-appimage).
+#
+# The AppImage runs on any x86-64 Linux whose glibc is at least as new as the one it was built with, so this image is
+# built on an OLD base: Ubuntu 22.04 has glibc 2.35 (Debian 12, Ubuntu 22.04+, Mint 21+, Fedora 36+, RHEL 9 and newer
+# run it). Everything else is inside the AppImage: SDL2 is built from source and linked in statically (CMake's
+# ONE_FETCH_SDL2), with every backend it can load at run time (X11, Wayland, PulseAudio, PipeWire, ALSA, KMS/DRM)
+# present at build time, and libstdc++ is linked statically. The graphics driver (OpenGL), the sound server and the
+# X11/Wayland client libraries come from the machine the AppImage runs on, as for any program.
+#
+#   tools/dev.sh with ONE_DEV_DOCKERFILE=Dockerfile.appimage ONE_DEV_IMAGE=one-appimage (tools/release.sh does that)
+FROM ubuntu:22.04
+
+ARG DEBIAN_FRONTEND=noninteractive
+ARG ONE_QUICKREF=0
+
+RUN echo '#clear DPkg::Pre-Install-Pkgs;' > /etc/apt/apt.conf.d/99no-preconfigure
+
+# Compilers, CMake 3.22 (the project needs 3.16), git and curl (CMake downloads Lua, Dear ImGui and SDL2), and the
+# development files of everything SDL2 loads at run time: without a header here, SDL builds without that backend.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        build-essential cmake ninja-build pkg-config git ca-certificates curl file python3 desktop-file-utils \
+        libx11-dev libxext-dev libxcursor-dev libxi-dev libxfixes-dev libxrandr-dev libxss-dev libxinerama-dev \
+        libxkbcommon-dev libwayland-dev wayland-protocols libdecor-0-dev \
+        libasound2-dev libpulse-dev libpipewire-0.3-dev \
+        libdrm-dev libgbm-dev libudev-dev libdbus-1-dev libgl-dev libegl-dev libgles-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# appimagetool and its runtime (the part of the file that mounts it), both pinned by checksum (the runtime is only
+# published as "continuous": if it changes, the build stops here; take the new checksum after looking at the change). appimagetool is itself an AppImage, so
+# it is unpacked: a container has no FUSE.
+RUN curl -fsSL -o /tmp/appimagetool https://github.com/AppImage/appimagetool/releases/download/1.9.0/appimagetool-x86_64.AppImage \
+    && echo "46fdd785094c7f6e545b61afcfb0f3d98d8eab243f644b4b17698c01d06083d1  /tmp/appimagetool" | sha256sum -c - \
+    && chmod +x /tmp/appimagetool && cd /opt && /tmp/appimagetool --appimage-extract >/dev/null \
+    && mv squashfs-root appimagetool && rm /tmp/appimagetool \
+    && curl -fsSL -o /opt/runtime-x86_64 https://github.com/AppImage/type2-runtime/releases/download/continuous/runtime-x86_64 \
+    && echo "156f4bdbde9c52d01814600013e0a273f0118dc2de98975f3c8c63427ec79074  /opt/runtime-x86_64" | sha256sum -c - \
+    && printf '#!/bin/sh\nexec /opt/appimagetool/AppRun "$@"\n' >/usr/local/bin/appimagetool && chmod +x /usr/local/bin/appimagetool
+
+ENV SDL_VIDEODRIVER=dummy \
+    SDL_AUDIODRIVER=dummy \
+    HOME=/tmp/home
+RUN mkdir -m 1777 /tmp/home && git config --system --add safe.directory '*'
+
+CMD ["bash"]

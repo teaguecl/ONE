@@ -1,0 +1,35 @@
+# code/data log (cdl) and backtrace (bt) on tests/health/health.nes (MMC1; run by ctest: debugger_cdl)
+# take_hit (bank 1, $8100 = PRG offset $4100) runs when A is pressed; bank 2 has other code at the same addresses
+cdl on
+fs 20
+press a
+fs 5
+# the NMI handler was entered: one frame on the call stack, the interrupted instruction as its call site
+!assert bt depth 1
+!assert bt target 1 c107
+!assert bt site 1 c0c4
+# bank 1 ran (a JSR target: sub entry; its DEC), bank 2's code at the same CPU addresses did not
+!assert cdl code 4100
+!assert cdl sub 4100
+!assert cdl code 4108
+!assert cdl unseen 8100
+!assert cdl unseen 8108
+# the NMI handler is a sub entry, and the interrupt vector was read as data
+!assert cdl sub c107
+!assert cdl data fffa
+# save, forget, load: what was recorded is back
+cdl save
+cdl clear
+!assert cdl unseen 4100
+cdl load
+!assert cdl code 4100
+!assert cdl sub 4100
+!assert cdl unseen 8100
+# by hand: mark makes bytes data (and no longer code), unmark takes the flag away (c100 is in the fixed bank,
+# where the CPU address and the PRG offset agree)
+cdl mark c100 4
+!assert cdl data c100
+!assert cdl data c103
+cdl unmark c100 4
+!assert cdl unseen c100
+cdl off

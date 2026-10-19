@@ -1,0 +1,7 @@
+# lag counter on tests/profiler/profiler.nes (run by ctest: debugger_lag_never): it never reads the controllers,
+# so every frame is a lag frame
+fs 5
+lag reset
+fs 20
+!assert lag 20
+!assert lag last 1

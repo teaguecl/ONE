@@ -1,0 +1,22 @@
+# the debugger's 'zapper' command on tests/zapper/zapper_free.nes (it records bits 3 and 4 of every $4017 read of the latest frame:
+# $0380 = bytes used, 9 = dark, light, dark; $0202 = the first read's bits 3 and 4)
+fs 40
+zapper
+zapper 136 104
+zapper
+fs 90
+!assert mem 0380 09
+zapper 20 20
+fs 90
+!assert mem 0380 03
+!assert mem 0202 08
+zapper off fire 90
+fs 40
+!assert mem 0380 03
+!assert mem 0202 18
+zapper none
+fs 40
+!assert mem 0202 00
+zapper 300 1
+zapper 1
+zapper off nonsense

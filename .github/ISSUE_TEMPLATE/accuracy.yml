@@ -1,0 +1,23 @@
+name: Accuracy report
+description: ONE differs from the NES hardware (or from a trusted emulator) in a game or test ROM
+labels: [accuracy]
+body:
+  - type: input
+    id: rom
+    attributes:
+      label: Game or test ROM, and its mapper
+    validations:
+      required: true
+  - type: textarea
+    id: difference
+    attributes:
+      label: What differs, and where (frame, scanline, cycle if you know)
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: A hardware test ROM result, a nesdev page, a trace from an emulator you trust. Please do not paste code from other emulators.
+    validations:
+      required: true

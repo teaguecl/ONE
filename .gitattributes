@@ -1,0 +1,4 @@
+# Files that must keep LF line ends when checked out on Windows (autocrlf would break shell scripts run by MSYS2)
+*.sh text eol=lf
+*.py text eol=lf
+data/cheats/*.txt text eol=lf

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=ONE Debugger
+GenericName=NES emulator and debugger
+Comment=Accurate NES emulator with a SoftICE-style debugger
+Exec=one-debugger %f
+Icon=one-debugger
+Terminal=false
+Categories=Game;Emulator;Development;Debugger;
+MimeType=application/x-nes-rom;

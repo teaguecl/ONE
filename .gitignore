@@ -1,0 +1,45 @@
+# CMake build trees
+/build/
+/build-*/
+/out/
+CMakeUserPresets.json
+
+# Legacy Makefile build outputs
+*.o
+/one
+/one.exe
+
+# Editor / tool droppings
+*~
+\#*\#
+.#*
+.vscode/
+.idea/
+*.swp
+__pycache__/
+compile_commands.json
+
+# Emulator output
+*.sav
+*.sav.tmp
+
+# Debugger log (one-debugger --log)
+one-debugger.log
+
+/one.cfg
+
+/commercial_games/
+/test_roms/
+*_mesen.txt
+*_mesen.wav
+*.cdl
+!/tests/data/nestest_mesen.txt
+!/tests/zapper/zapper_input*_mesen.txt
+
+/CLAUDE.md
+/docs/claude/
+
+windows_bench/
+bench/
+perf_roms/
+third_party/lua_scripts/

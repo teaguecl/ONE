@@ -1,0 +1,44 @@
+# clang-tidy checks for ONE (clang-tidy 18).  Run: tools/tidy.sh  (or cmake --build build --target tidy)
+# Chosen to find bugs, not to enforce a style: a cycle-accurate emulator is full of magic numbers, globals,
+# deliberate narrowing to 8/16 bits and intentionally parallel branches, so those checks are off; so are strcpy/strcat
+# warnings (the trace formatter builds lines in its own buffer) and struct-padding hints.
+# debugger/.clang-tidy adds C++ checks for the debugger.
+# Silence a single finding with  // NOLINT(check-name)  and a reason.
+Checks: >
+  -*,
+  clang-analyzer-*,
+  -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,
+  -clang-analyzer-security.insecureAPI.strcpy,
+  -clang-analyzer-optin.performance.Padding,
+  bugprone-*,
+  -bugprone-branch-clone,
+  -bugprone-easily-swappable-parameters,
+  -bugprone-implicit-widening-of-multiplication-result,
+  -bugprone-inc-dec-in-conditions,
+  -bugprone-narrowing-conversions,
+  -bugprone-switch-missing-default-case,
+  performance-*,
+  -performance-enum-size,
+  misc-*,
+  -misc-const-correctness,
+  -misc-non-private-member-variables-in-classes,
+  -misc-no-recursion,
+  portability-*,
+  readability-duplicate-include,
+  readability-inconsistent-declaration-parameter-name,
+  readability-misleading-indentation,
+  readability-misplaced-array-index,
+  readability-non-const-parameter,
+  readability-redundant-declaration,
+  readability-simplify-boolean-expr,
+  readability-suspicious-call-argument
+WarningsAsErrors: '*'
+FormatStyle: file
+CheckOptions:
+  # Include what you use: every header a file needs is included by the file itself, and none it does not need.
+  # Not asked for / not removed: SDL (SDL.h stands for all of it), Dear ImGui, libco, and the C library / POSIX headers
+  # (the checker names glibc's internal bits/ headers for getopt_long, poll, ... and does not see macros such as O_RDWR;
+  # <stdint.h> and the C++ library headers are checked). debugger/core.hpp, the one place
+  # where the debugger includes the C core, exports the core's headers (IWYU pragma): a file that uses cpu_debug_read
+  # includes core.hpp.
+  misc-include-cleaner.IgnoreHeaders: 'SDL.*;SDL_.*;imgui.*;libco.*;bits/.*;asm-generic/.*;linux/.*;sys/.*;.*/bits/.*;stdio\.h;stdlib\.h;string\.h;signal\.h;poll\.h;getopt\.h;limits\.h;unistd\.h;fcntl\.h;arpa/.*;netinet/.*'

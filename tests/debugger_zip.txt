@@ -1,0 +1,8 @@
+# one-debugger --batch: load a game out of a ZIP (run by ctest: debugger_zip), then the same checks as debugger_smoke
+load tests/zip/nestest_deflate.zip
+r pc = c000
+t 3
+!assert reg pc c5f9
+# a ZIP without a .nes leaves the game that is running alone
+load tests/zip/no_rom.zip
+!assert reg pc c5f9

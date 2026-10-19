@@ -1,0 +1,18 @@
+libco in ONE
+============
+
+What:     libco, byuu's tiny cooperative-threading library (co_create / co_switch), used for the CPU, PPU and loader
+          coroutines (scheduler.c, cpu.c, ppu.c, savestate.c).
+Upstream: https://github.com/higan-emu/libco (the maintained copy of byuu's libco; no release tags)
+Version:  upstream commit e18e09d634d612a01781168ad4d76be10a7e3bad (2024-09-10); libco.h still says "v20 (2019-10-16)",
+          upstream never changed that label.
+License:  ISC (the file LICENSE here is upstream's copy); valgrind.h is BSD-style (its own notice inside the file).
+Changes:  none. Every file here is byte-identical to upstream at that commit (README.md, doc/ and .github/ of the
+          repository are not copied). If ONE ever needs a change, mark it in the file with "ONE:" and list it here.
+
+Backends: libco.c picks one by compiler and processor: amd64.c, x86.c (Linux, Windows MSVC), fiber.c (Windows),
+          arm.c, aarch64.c, ppc.c, ppc64v2.c (not built or tested by ONE yet; kept so that an ARM port, Apple silicon,
+          Raspberry Pi, Android..., needs no new import), sjlj.c and ucontext.c (POSIX fallbacks).
+          Only libco.c is compiled (CMakeLists.txt); the rest are #included by it, listed in ONE_INCLUDED_SOURCES.
+
+Checking against upstream: fetch the files from raw.githubusercontent.com/higan-emu/libco/master/ and diff them.

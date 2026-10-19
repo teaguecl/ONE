@@ -1,0 +1,27 @@
+# fs (frame step), press, savestate (ctest debugger_frames, on a copy of nestest: the save state goes next to it)
+# fs: frames, stopping at the start of vblank (scanline 241)
+fs
+!assert frame 0
+!assert scanline 241
+fs 3
+!assert frame 3
+!assert scanline 241
+# press: buttons held for the next frames, then released
+press a+right 2
+!assert pad 1 a+right
+!assert pad 2 -
+press p2 start 1
+!assert pad 2 start
+fs 3
+!assert pad 1 -
+!assert pad 2 -
+# savestate: save runs to the next vblank, saving on the way; load brings the RAM (and the frame) back
+eb 07f0 = 12
+savestate save 9
+!assert frame 7
+eb 07f0 = 34
+fs 2
+savestate load 9
+!assert mem 07f0 12
+!assert frame 7
+!assert scanline 240

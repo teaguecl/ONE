@@ -1,0 +1,19 @@
+# The menu (gui/) is C++17 like the debugger: the checks of ../.clang-tidy, plus the same C++ ones as debugger/.
+InheritParentConfig: true
+Checks: >
+  modernize-deprecated-headers,
+  modernize-loop-convert,
+  modernize-make-unique,
+  modernize-use-bool-literals,
+  modernize-use-emplace,
+  modernize-use-equals-default,
+  modernize-use-equals-delete,
+  modernize-use-nullptr,
+  modernize-use-override,
+  cppcoreguidelines-pro-type-member-init,
+  cppcoreguidelines-slicing,
+  cppcoreguidelines-virtual-class-destructor,
+  readability-container-size-empty,
+  readability-string-compare,
+  readability-redundant-string-cstr,
+  readability-redundant-string-init

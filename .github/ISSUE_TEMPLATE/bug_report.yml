@@ -1,0 +1,40 @@
+name: Bug report
+description: Something crashes, misbehaves or looks wrong
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Please do not attach game ROMs. Name the game and its iNES mapper instead.
+  - type: input
+    id: version
+    attributes:
+      label: ONE version or commit
+    validations:
+      required: true
+  - type: dropdown
+    id: program
+    attributes:
+      label: Program
+      options: [one, one-debugger, libretro core]
+    validations:
+      required: true
+  - type: input
+    id: system
+    attributes:
+      label: Operating system and compiler
+  - type: input
+    id: game
+    attributes:
+      label: Game or test ROM, and its mapper
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected, and what happened
+    validations:
+      required: true

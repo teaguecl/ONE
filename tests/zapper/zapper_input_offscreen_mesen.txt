@@ -1,0 +1,2 @@
+# Zapper aim as Mesen saw it (tools/mesen/zapper_record.lua): CYCLE zapper X Y [fire]
+27392 zapper off

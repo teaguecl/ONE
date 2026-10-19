@@ -1,0 +1,57 @@
+# ONE code style, for clang-format 18 (C core and the C++ debugger).
+#   Reformat:  cmake --build build --target format        (or: tools/format.sh)
+#   Check:     cmake --build build --target format-check  (or: tools/format.sh --check; also ctest -L lint)
+# Only whitespace may change: no include sorting, comment reflowing or string splitting, so a reformat never
+# changes what the compiler sees.  Wrap hand-aligned tables in  // clang-format off  ...  // clang-format on.
+Language: Cpp
+BasedOnStyle: LLVM
+Standard: c++17
+
+# 4-space indents, 120 columns
+IndentWidth: 4
+ContinuationIndentWidth: 4
+ColumnLimit: 120
+AccessModifierOffset: -4
+IndentCaseLabels: false
+IndentPPDirectives: None
+IndentExternBlock: NoIndent
+
+# Braces on the line of their if/for/while/switch/struct; a function's opening brace on a line of its own
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterCaseLabel: false
+  AfterClass: false
+  AfterControlStatement: Never
+  AfterEnum: false
+  AfterExternBlock: false
+  AfterFunction: true
+  AfterNamespace: false
+  AfterStruct: false
+  AfterUnion: false
+  BeforeCatch: false
+  BeforeElse: false
+  BeforeLambdaBody: false
+  BeforeWhile: false
+  SplitEmptyFunction: false
+  SplitEmptyRecord: false
+  SplitEmptyNamespace: false
+
+# C conventions
+PointerAlignment: Right
+SpaceAfterCStyleCast: false
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortBlocksOnASingleLine: Never
+AllowShortCaseLabelsOnASingleLine: true
+AlignConsecutiveMacros: Consecutive
+AlignTrailingComments: true
+MaxEmptyLinesToKeep: 2
+
+# Never change anything but whitespace
+SortIncludes: Never
+ReflowComments: false
+BreakStringLiterals: false
+FixNamespaceComments: false
+InsertBraces: false
+RemoveBracesLLVM: false

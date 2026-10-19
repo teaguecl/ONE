@@ -1,0 +1,41 @@
+# profiler (prof) on tests/profiler/profiler.nes (run by ctest: debugger_profiler; the program: make_rom.py)
+# A (C100) is called 3 times and calls B (C110) twice; R (C120) recurses 3 deep; W (C130) waits for the NMI handler
+prof on
+bpx c029
+g
+!assert reg pc c029
+!assert prof routines 5
+!assert prof calls c100 3
+!assert prof calls c110 6
+# B: NOP NOP RTS = 10 cycles. A: JSR JSR RTS = 18 of its own, 38 with the two B calls
+!assert prof excl c110 60
+!assert prof incl c110 60
+!assert prof min c110 10
+!assert prof max c110 10
+!assert prof excl c100 54
+!assert prof incl c100 114
+!assert prof min c100 38
+!assert prof max c100 38
+# R recurses: 16 + 16 + 11 cycles; Incl counts the outermost activation only
+!assert prof calls c120 3
+!assert prof excl c120 43
+!assert prof incl c120 43
+!assert prof min c120 11
+!assert prof max c120 43
+# the NMI came while W waited: the handler is LDA STA RTI = 11 cycles, and not part of W
+!assert prof calls c130 1
+!assert prof calls c140 1
+!assert prof excl c140 11
+!assert prof incl c140 11
+!assert prof leaf c130
+!assert prof balanced
+prof list
+prof list sort name 3
+prof list sort address asc
+prof list sort calls
+# the counts survive prof off; reset forgets them
+prof off
+!assert prof calls c100 3
+prof reset
+!assert prof routines 0
+wprof save profiler.png

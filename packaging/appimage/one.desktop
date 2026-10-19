@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=ONE
+GenericName=NES emulator
+Comment=Accurate, fast NES emulator
+Exec=one %f
+Icon=one
+Terminal=false
+Categories=Game;Emulator;
+MimeType=application/x-nes-rom;

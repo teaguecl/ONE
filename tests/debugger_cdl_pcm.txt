@@ -1,0 +1,6 @@
+# the code/data log records DMC sample bytes (data + PcmData) (run by ctest: debugger_cdl_pcm)
+# apu_test's dmc_basics reads samples from ROM through the DMC channel
+cdl on
+fs 120
+!assert cdlpcm min 1
+cdl stats

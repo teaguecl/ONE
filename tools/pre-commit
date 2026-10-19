@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# git pre-commit hook for ONE: refuses a commit whose changed C/C++ sources are not clang-formatted or have
+# clang-tidy findings.
+#
+# Install once (from the top of the repository):
+#     ln -s ../../tools/pre-commit .git/hooks/pre-commit
+# Commit anyway, once:      git commit --no-verify
+# Skip only clang-tidy:     ONE_SKIP_TIDY=1 git commit ...
+#
+# Formatting is checked on the staged versions of the changed files.  clang-tidy checks the changed files as they
+# are in the working tree, using the compile_commands.json of a configured build (see tools/tidy.sh); it takes a
+# few seconds per file.  Without clang-format 18 / clang-tidy 18 or a configured build, that part is skipped with
+# a warning (ctest -L lint and CI still check).
+root=$(git rev-parse --show-toplevel)
+
+bash "$root/tools/format.sh" --check --staged
+status=$?
+if [ $status -eq 2 ]; then
+    echo "pre-commit: formatting not checked (see above)" >&2
+    status=0
+fi
+[ $status -eq 0 ] || exit $status
+
+if [ -n "${ONE_SKIP_TIDY:-}" ]; then
+    exit 0
+fi
+mapfile -t changed < <(git diff --cached --name-only --diff-filter=ACMR |
+                       grep -E '^([^/]+\.(c|h)|debugger/[^/]+\.(cpp|hpp)|tests/[^/]+\.c)$')
+if [ ${#changed[@]} -eq 0 ]; then
+    exit 0
+fi
+bash "$root/tools/tidy.sh" "${changed[@]}"
+status=$?
+if [ $status -eq 2 ]; then
+    echo "pre-commit: clang-tidy not run (see above)" >&2
+    exit 0
+fi
+exit $status
