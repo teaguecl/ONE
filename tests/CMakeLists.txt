@@ -173,6 +173,15 @@ if(TARGET one-debugger AND EXISTS ${ONE_ROOT}/tests/data/nestest.nes)
         set_tests_properties(debugger_bank PROPERTIES LABELS smoke TIMEOUT 60
             PASS_REGULAR_EXPRESSION "Break due to BPM #0 \\(\\$8000 read\\) at 07:[C-F][0-9A-F][0-9A-F][0-9A-F] \\(PRG bank 7 of 8, ROM offset \\$1[C-F][0-9A-F][0-9A-F][0-9A-F]\\)")
     endif()
+    # bpx / bpm BB:ADDRESS: only while PRG bank BB is mapped there (the wrong bank's breakpoint is skipped)
+    if(EXISTS ${ONE_ROOT}/tests/mmc1/mmc1.nes)
+        add_test(NAME debugger_bank_bp
+            COMMAND one-debugger --batch --log ${CMAKE_CURRENT_BINARY_DIR}/debugger_bank_bp.log
+                    -s ${CMAKE_CURRENT_SOURCE_DIR}/debugger_bank_bp.txt ${ONE_ROOT}/tests/mmc1/mmc1.nes)
+        set_tests_properties(debugger_bank_bp PROPERTIES LABELS smoke TIMEOUT 60
+            FAIL_REGULAR_EXPRESSION "ASSERTION FAILED"
+            PASS_REGULAR_EXPRESSION "No PRG bank 7F[^#]*not in the PRG banks[^#]*'zz' is not a bank number[^#]*No breakpoints set")
+    endif()
     # Game Genie codes (cheats.c): applied, 8-letter compare values, on/off, kept over a power cycle
     add_test(NAME debugger_gamegenie
         COMMAND one-debugger --batch --log ${CMAKE_CURRENT_BINARY_DIR}/debugger_gamegenie.log

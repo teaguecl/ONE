@@ -633,9 +633,17 @@ def build_server(debugger):
         """Stop the game when: kind "exec" (an instruction at ADDRESS runs), "read", "write", "access" (read or write
         of ADDRESS; stops after the instruction), or "opcode" (ADDRESS is the opcode, e.g. "9E"). condition: only
         when it is true, e.g. "a == 0" or "value < 3" (registers a x y s p pc, scanline, frame, mem[0x300],
-        address/value of the access; numbers as 0x..)."""
+        address/value of the access; numbers as 0x..). In bank-switched games ADDRESS can be "BB:ADDRESS" (BB: the
+        hex PRG bank, as in "05:BAB7"): it stops only while that bank is mapped there (not for "opcode")."""
         def run():
-            where = address_text(address)
+            bank, _, rest = str(address).rpartition(":")
+            where = address_text(rest)
+            if bank:
+                if kind == "opcode":
+                    raise DebuggerError("an opcode breakpoint has no bank")
+                if not re.fullmatch(r"[0-9A-Fa-f]{1,2}", bank.strip()):
+                    raise DebuggerError(f"not a bank: {bank!r} (hex, as in 05:BAB7)")
+                where = f"{bank.strip()}:{where}"
             line = {"exec": f"bpx {where}", "read": f"bpm {where} r", "write": f"bpm {where} w",
                     "access": f"bpm {where} rw", "opcode": f"bop {where}"}.get(kind)
             if line is None:
@@ -646,8 +654,9 @@ def build_server(debugger):
         return await call(run)
 
     @tool()
-    async def remove_breakpoint(number: str = "*") -> str:
-        """Remove breakpoint NUMBER (as list_breakpoints shows), or all ("*")."""
+    async def remove_breakpoint(number: str) -> str:
+        """Remove breakpoint NUMBER (as list_breakpoints shows), or all of them with "*". NUMBER is required, so a
+        missing or misnamed argument is an error and never removes everything."""
         return await call(command_text, f"bc {number}")
 
     @tool()

@@ -59,7 +59,9 @@ no commands queued), also with `SDL_VIDEODRIVER=dummy`: for tests and screen cap
   scanline 240: it runs up to the next frame) or loads one of `one`'s save-state slots (0-9).
 * Bank-switched games (MMC1, MMC3, MMC2): the code window's address column shows the PRG bank, `05:BAB7`; a
   breakpoint stop says where, "at 05:BAB7 (PRG bank 5 of 8, ROM offset $17AB7)"; the CPU memory window's title gives
-  the bank of the address at its top. The registers line is unchanged.
+  the bank of the address at its top. The registers line is unchanged. `bpx` and `bpm` take the same form,
+  `bpx 05:BAB7` (the bank in hex): the breakpoint acts only while PRG bank 5 is mapped at `$BAB7`; `bpx BAB7` acts in
+  any bank. `bl` shows `05:BAB7` for the bank-qualified ones. (`bop` has no bank.)
 * Code is shown starting at the instruction you ask for (`u`), and the code window lines up on PC and every
   instruction the game has executed. Going back from there (6502 code can be decoded from any byte) it picks, at
   each step, an executed instruction, else a documented opcode, else an unofficial one; bytes that cannot be an

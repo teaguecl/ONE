@@ -110,7 +110,7 @@ async def run(debugger, rom):
             places = await tool("find_in_rom", data="ce 47 03")
             check(places.startswith("1 found") and ("bank 1" in places or "01:8108" in places),
                   f"find_in_rom: one DEC $0347: {places!r}")
-            await tool("remove_breakpoint")
+            await tool("remove_breakpoint", number="*")
             await tool("run_frames", count=5)  # (the stop came in the middle of the A press: let it go)
 
             # 3. the code: the opcode replaced by BIT abs (2C: reads, writes nothing), only where bank 1's byte is

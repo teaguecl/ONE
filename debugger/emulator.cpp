@@ -237,7 +237,7 @@ bool Emulator::atBoundary(uint16_t pc)
         if (execIndex[pc]) {
             for (unsigned i = 0; i < bps.size(); i++) {
                 const Breakpoint &bp = bps[i];
-                if (bp.enabled && bp.type == Breakpoint::Type::Execute && bp.address == pc &&
+                if (bp.enabled && bp.type == Breakpoint::Type::Execute && bp.address == pc && bankMatches(bp, pc) &&
                     conditionMet(bp, -1, -1)) {
                     lastHit = static_cast<int>(i);
                     return stopWith(StopReason::Breakpoint);
@@ -356,7 +356,7 @@ void Emulator::onAccess(uint16_t address, uint8_t value, bool write)
     if (want && (want & (write ? 2 : 1)) && !accessHitPending && mode != Mode::Step) {
         for (unsigned i = 0; i < bps.size(); i++) {
             const Breakpoint &bp = bps[i];
-            if (!bp.enabled || bp.address != address) {
+            if (!bp.enabled || bp.address != address || !bankMatches(bp, address)) {
                 continue;
             }
             if (((bp.type == Breakpoint::Type::ReadWrite) || (bp.type == Breakpoint::Type::Read && !write) ||
@@ -468,11 +468,11 @@ StopReason Emulator::runSlice()
 }
 
 int Emulator::addBreakpoint(Breakpoint::Type type, uint16_t address, const std::string &condition, int conditionHandle,
-                            const std::string &action)
+                            const std::string &action, int bank)
 {
     for (unsigned i = 0; i < bps.size(); i++) {
         Breakpoint &bp = bps[i];
-        if (bp.type == type && bp.address == address) {
+        if (bp.type == type && bp.address == address && bp.bank == bank) {
             bp.enabled = true;
             script_condition_free(bp.conditionHandle);
             bp.condition = condition;
@@ -489,6 +489,7 @@ int Emulator::addBreakpoint(Breakpoint::Type type, uint16_t address, const std::
     Breakpoint bp;
     bp.type = type;
     bp.address = address;
+    bp.bank = bank;
     bp.condition = condition;
     bp.conditionHandle = conditionHandle;
     bp.action = action;
@@ -527,10 +528,17 @@ bool Emulator::setBreakpointEnabled(unsigned slot, bool enabled)
     return true;
 }
 
+bool Emulator::bankMatches(const Breakpoint &bp, uint16_t address)
+{
+    int bank = 0, banks = 0;
+    return bp.bank < 0 || (mapper_debug_prg_bank(address, &bank, &banks) && bank == bp.bank);
+}
+
 int Emulator::breakpointAt(uint16_t address) const
 {
     for (unsigned i = 0; i < bps.size(); i++) {
-        if (bps[i].enabled && bps[i].type == Breakpoint::Type::Execute && bps[i].address == address) {
+        if (bps[i].enabled && bps[i].type == Breakpoint::Type::Execute && bps[i].address == address &&
+            bankMatches(bps[i], address)) {
             return static_cast<int>(i);
         }
     }
