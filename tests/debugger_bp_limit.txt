@@ -1,0 +1,74 @@
+# The breakpoint limit (Emulator::kMaxBreakpoints = 64): 64 fit, the 65th is refused, and setting an existing one
+# again does not use a slot. Addresses $C000-$C03F.
+bpx c000
+bpx c001
+bpx c002
+bpx c003
+bpx c004
+bpx c005
+bpx c006
+bpx c007
+bpx c008
+bpx c009
+bpx c00a
+bpx c00b
+bpx c00c
+bpx c00d
+bpx c00e
+bpx c00f
+bpx c010
+bpx c011
+bpx c012
+bpx c013
+bpx c014
+bpx c015
+bpx c016
+bpx c017
+bpx c018
+bpx c019
+bpx c01a
+bpx c01b
+bpx c01c
+bpx c01d
+bpx c01e
+bpx c01f
+bpx c020
+bpx c021
+bpx c022
+bpx c023
+bpx c024
+bpx c025
+bpx c026
+bpx c027
+bpx c028
+bpx c029
+bpx c02a
+bpx c02b
+bpx c02c
+bpx c02d
+bpx c02e
+bpx c02f
+bpx c030
+bpx c031
+bpx c032
+bpx c033
+bpx c034
+bpx c035
+bpx c036
+bpx c037
+bpx c038
+bpx c039
+bpx c03a
+bpx c03b
+bpx c03c
+bpx c03d
+bpx c03e
+bpx c03f
+# an existing one is updated, not added
+bpx c000 if a == 1
+bpx c040
+bl
+# 64 are in and the 65th was refused; clearing one makes room again
+bc 63
+bpx c040
+bl

@@ -120,7 +120,7 @@ public:
     // Keys pressed in the game window: a run stops at the next instruction, and the UI then acts on the key
     std::optional<GameKey> takeGameKey();
 
-    static constexpr unsigned kMaxBreakpoints = 16;
+    static constexpr unsigned kMaxBreakpoints = 64;
 
     // Instructions the CPU has started at, since the ROM was loaded (PRG-ROM by its offset, so each bank of
     // banked code is remembered separately; RAM by address): the disassembler trusts these over its guesses.

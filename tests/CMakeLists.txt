@@ -173,6 +173,12 @@ if(TARGET one-debugger AND EXISTS ${ONE_ROOT}/tests/data/nestest.nes)
         set_tests_properties(debugger_bank PROPERTIES LABELS smoke TIMEOUT 60
             PASS_REGULAR_EXPRESSION "Break due to BPM #0 \\(\\$8000 read\\) at 07:[C-F][0-9A-F][0-9A-F][0-9A-F] \\(PRG bank 7 of 8, ROM offset \\$1[C-F][0-9A-F][0-9A-F][0-9A-F]\\)")
     endif()
+    # 64 breakpoints fit, the 65th is refused, and an existing one is updated instead of using a slot
+    add_test(NAME debugger_bp_limit
+        COMMAND one-debugger --batch --log ${CMAKE_CURRENT_BINARY_DIR}/debugger_bp_limit.log
+                -s ${CMAKE_CURRENT_SOURCE_DIR}/debugger_bp_limit.txt ${ONE_ROOT}/tests/data/nestest.nes)
+    set_tests_properties(debugger_bp_limit PROPERTIES LABELS smoke TIMEOUT 60
+        PASS_REGULAR_EXPRESSION "all 64 are in use[^#]*63\\) BPX +\\$C03F[^#]*63\\) BPX +\\$C040")
     # bpx / bpm BB:ADDRESS: only while PRG bank BB is mapped there (the wrong bank's breakpoint is skipped)
     if(EXISTS ${ONE_ROOT}/tests/mmc1/mmc1.nes)
         add_test(NAME debugger_bank_bp

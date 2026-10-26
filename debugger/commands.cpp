@@ -1434,7 +1434,7 @@ void CommandProcessor::addBreakpoint(Breakpoint::Type type, uint16_t address, Br
     }
     if (Emulator::instance().addBreakpoint(type, address, extras.condition, extras.conditionHandle, extras.action,
                                            bank) < 0) {
-        print("Cannot set breakpoint: all 16 are in use");
+        print(format("Cannot set breakpoint: all %u are in use", Emulator::kMaxBreakpoints));
     }
     host.stateChanged();
 }

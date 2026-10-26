@@ -1837,7 +1837,7 @@ void DebuggerApp::toggleBreakpointAtCursor()
     if (slot >= 0) {
         emu.removeBreakpoint(static_cast<unsigned>(slot));
     } else if (emu.addBreakpoint(Breakpoint::Type::Execute, address) < 0) {
-        print("Cannot set breakpoint: all 16 are in use");
+        print("Cannot set breakpoint: all " + std::to_string(Emulator::kMaxBreakpoints) + " are in use");
     }
 }
 
