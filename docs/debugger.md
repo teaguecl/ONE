@@ -255,6 +255,7 @@ from there. The agent cannot start the game for you.
 | `read_memory`, `write_memory`, `rom_info`, `find_in_rom` | CPU, PPU, OAM and palette memory; PRG-ROM by bank; find bytes in every bank |
 | `disassemble`, `label`, `backtrace`, `cdl` | code with labels and banks; name an address; the call stack; the code/data log |
 | `set_breakpoint`, `remove_breakpoint`, `list_breakpoints`, `wait_for_breakpoint` | execution, read, write, opcode breakpoints with conditions |
+| `profile` | runs N frames with the profiler (`prof`) on and lists the routines by cycles (`wprof`, the window, is not remote) |
 | `cheat_search`, `game_genie`, `set_cheats` | the `cs` search; encode / decode codes (in bank-switched games it says in which banks a code acts); the known codes for the game |
 | `wait_for_user` | show a message with the game stopped; you act and hand it back |
 

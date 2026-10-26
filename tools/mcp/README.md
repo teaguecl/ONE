@@ -56,6 +56,7 @@ is the only behavior: the agent cannot start the game for you.
 | `cheat_search` | find a variable by how it changes (the debugger's `cs`) |
 | `backtrace` | the call stack: how the CPU got here (`bt`; `jumps`: the last jumps and branches) |
 | `cdl` | the code/data log, Mesen's CDL format: `on`, `stats`, `unseen`, `save`, `load` |
+| `profile` | where the CPU time goes: runs N frames and lists the routines by cycles, calls, min / max (the debugger's `prof`) |
 | `game_genie`, `set_cheats` | decode / encode / apply codes (`gg`), the known codes for the game; in bank-switched games, says in which banks a code acts |
 | `wait_for_user` | show a message with the game stopped; you start it (F5), act, stop it (F5) |
 | `debugger_command` | any other allowed debugger command |

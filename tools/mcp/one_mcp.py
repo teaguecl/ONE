@@ -718,6 +718,30 @@ def build_server(debugger):
         return await call(command_text, "bt jumps" if jumps else "bt")
 
     @tool()
+    async def profile(frames: int = 60, sort: str = "excl", count: int = 20, keep: bool = False) -> str:
+        """Where the game spends its CPU time (the debugger's prof): runs FRAMES frames with call tracking on and
+        lists the top COUNT routines (calls, cycles with and without the routines they call, min / max / average),
+        sorted by SORT: name, address, calls, incl, incl%, excl (cycles of the routine itself), excl%, avg, min or
+        max. "[root]" is the time outside every JSR; NMI/IRQ time is counted apart from the routine it interrupted.
+        keep: add to the counts of an earlier call instead of starting from zero. A breakpoint ends the run early
+        (the header says how many frames ran). The frame count is frame boundaries crossed, so the first run from
+        power-on or reset (which starts at the top of a frame) can show one frame fewer than FRAMES; the cycle numbers
+        are exact. Routines are named by labels (see the label tool)."""
+        def run():
+            column = sort.strip().lower()
+            if column not in ("name", "address", "calls", "incl", "incl%", "excl", "excl%", "avg", "min", "max"):
+                raise DebuggerError("sort is name, address, calls, incl, incl%, excl, excl%, avg, min or max")
+            if not keep:
+                command_text("prof reset")
+            command_text("prof on")
+            try:
+                command_text(f"fs {max(1, int(frames))}", max(10.0, frames / 10))
+            finally:
+                command_text("prof off")
+            return command_text(f"prof list sort {column} {max(1, int(count))}")
+        return await call(run)
+
+    @tool()
     async def cdl(action: str = "stats") -> str:
         """The code/data log (the debugger's cdl): which PRG-ROM bytes ran as code, were read as data or jumped to,
         kept per bank. "on" / "off" / "clear"; "stats" (how much is known, per bank); "unseen [BANK [BYTES]]" (the

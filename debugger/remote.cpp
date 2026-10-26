@@ -807,7 +807,7 @@ std::string RemoteServer::refusal(const std::string &line)
         "bpm",  "bop",   "bc",    "bd",  "be",      "bl",    "d",   "dp",     "u",        "eb",        "eo",
         "r",    "n",     "watch", "wc",  "comment", "s",     "cs",  "freeze", "unfreeze", "gg",        "ec",
         "ww",   "woam",  "oam",   "rs",  "fps",     "reset", "q",   "log",    "h",        "help",      "?",
-        "load", "lsave", "lload", "wbg", "wpal",    "wpat",  "bt",  "cdl",    "zapper"};
+        "load", "lsave", "lload", "wbg", "wpal",    "wpat",  "bt",  "cdl",    "zapper",   "prof"};
     static const std::set<std::string> withoutArguments = {"lsave", "lload", "wbg", "wpal", "wpat"};
     if (allowed.count(name) == 0) {
         if (name == "lua" || name == "source" || name == "lb" || name == "screenshot") {
