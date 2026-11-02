@@ -337,6 +337,14 @@ if(TARGET one AND Python3_FOUND AND EXISTS ${ONE_ROOT}/apu_reference/mmc5audio.w
     set_tests_properties(apu_mmc5audio PROPERTIES LABELS smoke TIMEOUT 120)
 endif()
 
+# Dig Dug II (Japan) has mapper 64 in its iNES header but is a Namco 108 game: the CRC-32 override in mapper.c (commercial_games/ is not in
+# the repository: skipped without it)
+if(TARGET one AND EXISTS "${ONE_ROOT}/commercial_games/Dig Dug II (Japan).zip")
+    add_test(NAME mapper_digdug2_header
+        COMMAND one --headless -u --no-sav -k 600000 "${ONE_ROOT}/commercial_games/Dig Dug II (Japan).zip")
+    set_tests_properties(mapper_digdug2_header PROPERTIES LABELS smoke TIMEOUT 60
+        PASS_REGULAR_EXPRESSION "this ROM \\(CRC-32 2BE254E9\\) is a Namco 108 game: using mapper 206")
+endif()
 # The Sunsoft 5B's audio (mapper 69) against Mesen's recording of Gimmick! (test_roms/apu_reference/ and commercial_games/ are not in the repository:
 # skipped without them): the peak-to-peak level of every 25 ms block of the whole game section (tests/gimmick_audio_check.py)
 if(TARGET one AND Python3_FOUND AND EXISTS ${ONE_ROOT}/apu_reference/gimmick.wav AND EXISTS "${ONE_ROOT}/commercial_games/Gimmick! (Japan).zip"

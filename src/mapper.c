@@ -508,6 +508,15 @@ static bool mapper_init_from(char *filename, const uint8_t *memory, size_t memor
             }
             rom_copies_keep(
                 &ines_file_data); // (first: a mapper may need the game's CRC, as the MMC3 does for the MMC6 games)
+            // A ROM whose iNES header names the wrong mapper is known by the CRC-32 of its PRG + CHR (No-Intro). Dig Dug II
+            // (Japan) says 64, but it is a Namco 108 game: its reset vector is in the last bank and its boot code is in a
+            // bank that only a linear power-on layout puts at $A000, which the RAMBO-1 does not give.
+            if ((64 == mapper_num) && (0x2BE254E9u == rom_crc)) {
+                LOG_INFO(MAPPER,
+                         "the header says mapper 64, but this ROM (CRC-32 %08X) is a Namco 108 game: using mapper 206",
+                         rom_crc);
+                mapper_num = Namco108;
+            }
             if (NROM == mapper_num) {
                 status = mapper_nrom_init_ines(&ines_file_data, &glb_mapper_info);
             } else if (SxROM == mapper_num) {
