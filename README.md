@@ -52,8 +52,8 @@ ONE is checked against hardware test ROMs. Run `tools/fetch_test_roms.sh` to dow
 
 ## Mappers
 
-ONE supports 42 mappers covering the majority of the NES catalog.  Is supports iNES numbers 0-5, 7, 9-11, 16, 19, 21-26, 32-34, 37, 47, 66, 69-71, 75, 78, 79, 86-88, 105, 113, 118, 119, 184, 185, 206, 232 and 243. Most were checked against commercial games, and the expansion audio of MMC5, VRC6, Namco 163 and Sunsoft 5B against recordings.
-Known gaps: 16 has no barcode reader, 157, 159 or 24C01 (Datach Battle Rush is not yet right), and 37 has no PAL timing. RAMBO-1 (64) is being rewritten.
+ONE supports 43 mappers covering the majority of the NES catalog.  Is supports iNES numbers 0-5, 7, 9-11, 16, 19, 21-26, 32-34, 37, 47, 64, 66, 69-71, 75, 78, 79, 86-88, 105, 113, 118, 119, 184, 185, 206, 232 and 243. Most were checked against commercial games, and the expansion audio of MMC5, VRC6, Namco 163 and Sunsoft 5B against recordings.
+Known gaps: 16 has no barcode reader, 157, 159 or 24C01 (Datach Battle Rush is not yet right), and 37 has no PAL timing. RAMBO-1 (64) is written from measurements of the chip, not from another emulator; it passes all six hardware test ROMs.
 A ROM with any other mapper does not start: `one` prints `error: unsupported mapper: N`.
 
 ## Tests
@@ -69,7 +69,6 @@ details.
 I'd love to hear from anyone using ONE - I'd love to improve it.  Below is a list of things that may get done in the future.
 
 * PAL Support
-* RAMBO-1 mapper (iNES 64)
 * Alternate debugger UI
 * VS Code integration
 * Mac support

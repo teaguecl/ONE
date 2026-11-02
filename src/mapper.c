@@ -47,6 +47,7 @@
 #include "mappers/mapper_cnrom.h"
 #include "mappers/mapper_mmc1.h"
 #include "mappers/mapper_txrom.h"
+#include "mappers/mapper_rambo1.h"
 #include "mappers/mapper_exrom.h"
 #include "mappers/mapper_pxrom.h"
 #include "mappers/mapper_fxrom.h"
@@ -518,6 +519,8 @@ static bool mapper_init_from(char *filename, const uint8_t *memory, size_t memor
             } else if (TxROM == mapper_num || TxSROM == mapper_num || TQROM == mapper_num || Namco108 == mapper_num ||
                        88 == mapper_num || 37 == mapper_num || 47 == mapper_num) {
                 status = mapper_txrom_init_ines(&ines_file_data, &glb_mapper_info, &sav_file_data, mapper_num);
+            } else if (64 == mapper_num) {
+                status = mapper_rambo1_init_ines(&ines_file_data, &glb_mapper_info);
             } else if (ExROM == mapper_num) {
                 status = mapper_exrom_init_ines(&ines_file_data, &glb_mapper_info, &sav_file_data);
             } else if (FxROM == mapper_num) {

@@ -32,6 +32,7 @@ UNITS = {
     "mappers/mapper_discrete.c": ["mapper_discrete.c"],
     "mappers/mapper_mmc1.c": ["mapper_mmc1.c"],
     "mappers/mapper_txrom.c": ["mapper_txrom.c"],
+    "mappers/mapper_rambo1.c": ["mapper_rambo1.c"],
     "mappers/mapper_pxrom.c": ["mapper_pxrom.c"],
     "cheats.c": ["cheats.c"],
     "memory.c": ["memory.c"],
