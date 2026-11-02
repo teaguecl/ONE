@@ -646,11 +646,19 @@ def build_server(debugger):
         of ADDRESS; stops after the instruction), or "opcode" (ADDRESS is the opcode, e.g. "9E"). condition: only
         when it is true, e.g. "a == 0" or "value < 3" (registers a x y s p pc, scanline, frame, mem[0x300],
         address/value of the access; numbers as 0x..). In bank-switched games ADDRESS can be "BB:ADDRESS" (BB: the
-        hex PRG bank, as in "05:BAB7"): it stops only while that bank is mapped there (not for "opcode")."""
+        hex PRG bank, as in "05:BAB7"): it stops only while that bank is mapped there (not for "opcode"). For "read",
+        "write" and "access", ADDRESS can be a range "START..END" ("0300..03FF", "05:8000..8FFF": the bank applies to the
+        whole range); the stop says which address of the range was accessed."""
         def run():
             if kind == "opcode" and ":" in str(address):
                 raise DebuggerError("an opcode breakpoint has no bank")
-            where = bank_address_text(address)
+            if ".." in str(address):
+                if kind not in ("read", "write", "access"):
+                    raise DebuggerError("a range START..END is for read, write and access breakpoints")
+                first, _, last = str(address).partition("..")
+                where = f"{bank_address_text(first)}..{address_text(last)}"
+            else:
+                where = bank_address_text(address)
             line = {"exec": f"bpx {where}", "read": f"bpm {where} r", "write": f"bpm {where} w",
                     "access": f"bpm {where} rw", "opcode": f"bop {where}"}.get(kind)
             if line is None:

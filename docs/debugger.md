@@ -63,6 +63,9 @@ no commands queued), also with `SDL_VIDEODRIVER=dummy`: for tests and screen cap
   `bpx 05:BAB7` (the bank in hex): the breakpoint acts only while PRG bank 5 is mapped at `$BAB7`; `bpx BAB7` acts in
   any bank. `bl` shows `05:BAB7` for the bank-qualified ones. (`bop` has no bank.) `n 04:8000 name` labels that bank's code whether or not it is mapped in, so the same CPU
   address can have a different name in each bank.
+* `bpm` takes a range, `bpm 0300..03FF w` (START..END, inclusive; `..` so that `-` stays free for arithmetic): the stop
+  says which address of the range was accessed, and the bank prefix applies to the whole range (`bpm 05:8000..8FFF r`).
+  A range is one breakpoint. `bpx` and `bop` take one address.
 * Code is shown starting at the instruction you ask for (`u`), and the code window lines up on PC and every
   instruction the game has executed. Going back from there (6502 code can be decoded from any byte) it picks, at
   each step, an executed instruction, else a documented opcode, else an unofficial one; bytes that cannot be an

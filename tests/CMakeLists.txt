@@ -179,6 +179,13 @@ if(TARGET one-debugger AND EXISTS ${ONE_ROOT}/tests/data/nestest.nes)
                 -s ${CMAKE_CURRENT_SOURCE_DIR}/debugger_bp_limit.txt ${ONE_ROOT}/tests/data/nestest.nes)
     set_tests_properties(debugger_bp_limit PROPERTIES LABELS smoke TIMEOUT 60
         PASS_REGULAR_EXPRESSION "all 64 are in use[^#]*63\\) BPX +\\$C03F[^#]*63\\) BPX +\\$C040")
+    # bpm START..END: one breakpoint for a range; the stop says which address was accessed; the refused forms
+    add_test(NAME debugger_bpm_range
+        COMMAND one-debugger --batch --log ${CMAKE_CURRENT_BINARY_DIR}/debugger_bpm_range.log
+                -s ${CMAKE_CURRENT_SOURCE_DIR}/debugger_bpm_range.txt ${ONE_ROOT}/tests/data/nestest.nes)
+    set_tests_properties(debugger_bpm_range PROPERTIES LABELS smoke TIMEOUT 60
+        FAIL_REGULAR_EXPRESSION "ASSERTION FAILED"
+        PASS_REGULAR_EXPRESSION "BPM W +\\$0000\\.\\.\\$000F.*Break due to BPM #0 \\(\\$0000 written\\).*Break due to BPM #0 \\(\\$0010 written\\).*is before its start.*both ends of a range are needed.*bpx takes one address.*No breakpoints set")
     # n BB:ADDRESS: a label in a bank that is not mapped in; the same CPU address can have a name in each bank
     if(EXISTS ${ONE_ROOT}/tests/mmc1/mmc1.nes)
         add_test(NAME debugger_bank_names

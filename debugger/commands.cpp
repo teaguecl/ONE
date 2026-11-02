@@ -326,7 +326,7 @@ const std::vector<CommandProcessor::Command> &CommandProcessor::commands()
         {"savestate", &CommandProcessor::cmdSaveState, {"Save or load the game.  Syntax: savestate save|load [slot]", "   Slots 1-9, next to the ROM (game.ss1 ...), the same as F1/F2 in the game window; default: the current slot. save runs to the start of the next vblank (fs) and saves on the way, at the end of the picture.", nullptr}},
         // @group Breakpoints
         {"bpx",   &CommandProcessor::cmdBpx,           {"Breakpoint on execution.  Syntax: bpx [bank:]address [if condition] [do \"commands\"]", "   Example: bpx $8432   or   bpx nmi_handler   or   bpx 8000 if a == 0 do \"d 300; g\"", "   bank: (hex, as the code window shows it) stops only while that PRG bank is mapped there.  Example: bpx 05:BAB7", "   if: Lua (a x y s p pc scanline cycle frame mem[addr] emu.*).  do: commands when it stops", "Func key: [F9] toggles a breakpoint on the code window's cursor line", nullptr}},
-        {"bpm",   &CommandProcessor::cmdBpm,           {"Breakpoint on memory access.  Syntax: bpm [bank:]address [r|w|rw|x] [if condition] [do \"commands\"]", "   Stops after the instruction that accessed the address.  Default: rw.  if: also address, value", nullptr}},
+        {"bpm",   &CommandProcessor::cmdBpm,           {"Breakpoint on memory access.  Syntax: bpm [bank:]address[..end] [r|w|rw|x] [if condition] [do \"commands\"]", "   Stops after the instruction that accessed the address, or any address of the range START..END.  Default: rw.", "   Example: bpm 0300..03FF w   if: also address, value (the old value is mem[address])", nullptr}},
         {"bop",   &CommandProcessor::cmdBop,           {"Breakpoint on opcode execution.  Syntax: bop opcode [if condition] [do \"commands\"]", "   Example: bop 9E", nullptr}},
         {"bc",    &CommandProcessor::cmdBc,            {"Clear breakpoints.  Syntax: bc number... | *", "   Example: bc 3", nullptr}},
         {"bd",    &CommandProcessor::cmdBd,            {"Disable breakpoints.  Syntax: bd number... | *", nullptr}},
@@ -1422,7 +1422,8 @@ bool CommandProcessor::parseBankAddress(const std::string &text, uint16_t &addre
     return true;
 }
 
-void CommandProcessor::addBreakpoint(Breakpoint::Type type, uint16_t address, BreakpointExtras &extras, int bank)
+void CommandProcessor::addBreakpoint(Breakpoint::Type type, uint16_t address, BreakpointExtras &extras, int bank,
+                                     int end)
 {
     if (!extras.condition.empty()) {
         char error[256];
@@ -1432,8 +1433,8 @@ void CommandProcessor::addBreakpoint(Breakpoint::Type type, uint16_t address, Br
             return;
         }
     }
-    if (Emulator::instance().addBreakpoint(type, address, extras.condition, extras.conditionHandle, extras.action,
-                                           bank) < 0) {
+    if (Emulator::instance().addBreakpoint(type, address, extras.condition, extras.conditionHandle, extras.action, bank,
+                                           end) < 0) {
         print(format("Cannot set breakpoint: all %u are in use", Emulator::kMaxBreakpoints));
     }
     host.stateChanged();
@@ -1448,6 +1449,10 @@ void CommandProcessor::cmdBpx(const Args &words)
     }
     if (args.size() != 2) {
         print("Syntax: bpx [bank:]address [if condition] [do \"commands\"]");
+        return;
+    }
+    if (args[1].find("..") != std::string::npos) {
+        print("bpx takes one address: ranges (START..END) are for bpm");
         return;
     }
     uint16_t address = 0;
@@ -1466,13 +1471,32 @@ void CommandProcessor::cmdBpm(const Args &words)
         return;
     }
     if (args.size() < 2 || args.size() > 3) {
-        print("Syntax: bpm [bank:]address [r|w|rw|x]");
+        print("Syntax: bpm [bank:]address[..end] [r|w|rw|x]");
         return;
     }
     uint16_t address = 0;
     int bank = -1;
-    if (!parseBankAddress(args[1], address, bank)) {
+    int end = -1;
+    const size_t dots = args[1].find("..");
+    if (dots != std::string::npos && (dots == 0 || dots + 2 >= args[1].size())) {
+        print("Syntax: bpm [bank:]address[..end] [r|w|rw|x]   (both ends of a range are needed)");
         return;
+    }
+    if (!parseBankAddress(args[1].substr(0, dots), address, bank)) {
+        return;
+    }
+    if (dots != std::string::npos) { // START..END: the bank (if any) applies to the whole range
+        const std::string endText = args[1].substr(dots + 2);
+        auto last = parseAddress(endText);
+        if (!last) {
+            print(unknownAddress(endText));
+            return;
+        }
+        if (*last < address) {
+            print(format("The end of the range ($%04X) is before its start ($%04X)", *last, address));
+            return;
+        }
+        end = *last;
     }
     Breakpoint::Type type = Breakpoint::Type::ReadWrite;
     if (args.size() == 3 && args[1].find('=') == std::string::npos && args[2].find('=') == std::string::npos) {
@@ -1490,7 +1514,7 @@ void CommandProcessor::cmdBpm(const Args &words)
             return;
         }
     }
-    addBreakpoint(type, address, extras, bank);
+    addBreakpoint(type, address, extras, bank, end);
 }
 
 void CommandProcessor::cmdBop(const Args &words)
@@ -1577,7 +1601,9 @@ std::string CommandProcessor::breakpointText(unsigned slot) const
         where = format("opcode $%02X", bp.address);
     } else {
         where = bp.bank >= 0 ? format("%02X:%04X", bp.bank, bp.address) : format("$%04X", bp.address);
-        if (const std::string *label = symbols.find(bp.address)) {
+        if (bp.end != bp.address) {
+            where += (bp.bank >= 0) ? format("..%04X", bp.end) : format("..$%04X", bp.end);
+        } else if (const std::string *label = symbols.find(bp.address)) {
             where += " " + *label;
         }
     }

@@ -191,7 +191,7 @@ private:
         int conditionHandle = -1;
     };
     bool breakpointExtras(Args &args, BreakpointExtras &extras);
-    void addBreakpoint(Breakpoint::Type type, uint16_t address, BreakpointExtras &extras, int bank = -1);
+    void addBreakpoint(Breakpoint::Type type, uint16_t address, BreakpointExtras &extras, int bank = -1, int end = -1);
     // "ADDRESS" or "BB:ADDRESS" (BB: hex PRG bank, as the code window shows it; bank -1: none given); says why
     // when it fails
     bool parseBankAddress(const std::string &text, uint16_t &address, int &bank);

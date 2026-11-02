@@ -1,0 +1,32 @@
+# bpm START..END (run by ctest: debugger_bpm_range, on nestest): the range stops on any address in it and the stop says which
+# nestest's first write to $0000 is at $C5F7 (the break is after it, at $C5F9); the first one to $0001-$00FF is $0010
+r pc = c000
+bpm 0000..000F w
+bl
+x
+!assert reg pc c5f9
+bc *
+r pc = c000
+bpm 0001..00FF w
+x
+!assert reg pc c5fb
+bc *
+# a range that does not contain the address does not stop on it, and a one-address range is the same as no range
+r pc = c000
+bpm 0000..0000 w
+x
+!assert reg pc c5f9
+bc *
+# a range with a condition (the old value is mem[address])
+r pc = c000
+bpm 0000..00FF w if address == 0x10
+x
+!assert reg pc c5fb
+bc *
+# refused
+bpm 0010..0005
+bpm 0010..
+bpm ..0010
+bpm 0010..zz
+bpx 0010..0020
+bl

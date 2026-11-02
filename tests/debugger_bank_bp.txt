@@ -22,3 +22,14 @@ bpx 7F:8000
 bpx 03:0300
 bpx zz:8000
 bl
+# a range with a bank prefix: the bank applies to the whole range, and the stop comes in the frame that maps that bank (X = bank)
+reset hard
+bpm 05:8000..9FFF r
+x
+!assert reg x 05
+bc *
+reset hard
+bpm 03:8000..9FFF r
+x
+!assert reg x 03
+bc *

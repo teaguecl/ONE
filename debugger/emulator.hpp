@@ -33,7 +33,8 @@
 struct Breakpoint {
     enum class Type { Execute, Read, Write, ReadWrite, Opcode };
     Type type = Type::Execute;
-    uint16_t address = 0; // Opcode: the opcode
+    uint16_t address = 0; // Opcode: the opcode; otherwise the start of the range
+    uint16_t end = 0;     // the last address of the range (bpm START..END); the same as address for one address
     int bank =
         -1; // bpx / bpm BB:ADDRESS: only while PRG bank BB (the mapper's own bank size) is mapped at ADDRESS; -1: any
     bool enabled = true;
@@ -92,12 +93,13 @@ public:
     // A condition (Lua expression) or action replaces the breakpoint's earlier one; conditionHandle comes from
     // script_condition_compile() and belongs to the breakpoint from then on.
     int addBreakpoint(Breakpoint::Type type, uint16_t address, const std::string &condition = {},
-                      int conditionHandle = -1, const std::string &action = {}, int bank = -1);
+                      int conditionHandle = -1, const std::string &action = {}, int bank = -1, int end = -1);
     bool removeBreakpoint(unsigned slot);
     void removeAllBreakpoints();
     bool setBreakpointEnabled(unsigned slot, bool enabled);
     const std::vector<Breakpoint> &breakpoints() const { return bps; }
-    int breakpointAt(uint16_t address) const; // execute breakpoint slot at address (in the bank mapped now), -1 if none
+    int breakpointAt(
+        uint16_t address) const; // execute breakpoint slot covering address (in the bank mapped now), -1 if none
     static bool bankMatches(const Breakpoint &bp, uint16_t address); // bp's bank is any, or is mapped at address now
     int hitBreakpoint() const { return lastHit; }
     uint16_t hitAccessAddress() const { return lastHitAddress; }
