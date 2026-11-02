@@ -228,7 +228,25 @@ The profile-guided builds are trained on the games listed in `tools/pgo_games.tx
 put them into `commercial_games/` (or any directory, named in `ONE_GAMES_DIR`). The script stops before it builds
 anything if one is missing. `--only NAME,...` builds some of the archives, `--quick` trains on nestest for 2 seconds
 and needs no games (to try the script; do not release the result), and `--upload` makes a draft release on GitHub with
-`gh` from `RELEASE_NOTES.md`. The whole run takes a few hours.
+`gh` from `RELEASE_NOTES.md`. The whole run takes about 25 minutes (the first one longer: it builds the containers).
+
+The steps of a release:
+
+1. Push, and wait for CI to be green. Run `bash tools/check.sh nightly` (CI does not run the slow tests, such as
+   `ppu_catchup`). Optionally regenerate the quick reference (`bash docs/quickref/build.sh`: it goes into the
+   Windows debugger zip).
+2. Update `RELEASE_NOTES.md` and commit everything: `git status` must be clean, or `release.sh` warns that the files
+   are not exactly the commit.
+3. `bash tools/release.sh VERSION`. Check the output: each profile-guided build prints
+   `pgo.sh: 2/3 training: 44 ROMs, 20 emulated seconds each` (a `--quick` build does not count).
+4. Test the files in `build/dist/`: `bash tools/test_appimage.sh` on each AppImage; on Windows, `one.exe`,
+   `one-debugger.exe` and the libretro core in RetroArch; `SHA256SUMS.txt` lists every file.
+5. Tag the commit that was built and push the tag: `git tag vVERSION && git push origin vVERSION` (the source zip is
+   made from the tag; with no tag, from HEAD). If you have no self-hosted runner, disable the Release workflow in the
+   Actions tab first.
+6. Make the draft release: `bash tools/release.sh VERSION --upload` (it builds again), or `gh release create vVERSION
+   --draft --title "ONE VERSION" --notes-file RELEASE_NOTES.md build/dist/*` for what is already built.
+7. Open the draft on GitHub, check the notes and the files, and publish it.
 
 `.github/workflows/release.yml` does the same when you push a tag (`v0.1.0`), on a self-hosted runner of yours: GitHub's
 own machines do not have the games. The workflow's comments say how to set it up.
