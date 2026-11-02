@@ -183,7 +183,11 @@ void Symbols::forgetName(const Location &location)
 
 void Symbols::add(uint16_t address, const std::string &name)
 {
-    const Location location = locate(address);
+    setName(locate(address), name);
+}
+
+void Symbols::setName(const Location &location, const std::string &name)
+{
     auto it = labels.find(location);
     if (it != labels.end()) { // keep the comment (and range) that is there
         Label label = it->second;
@@ -204,19 +208,22 @@ void Symbols::add(const Location &location, const std::string &name, const std::
 
 bool Symbols::remove(uint16_t address)
 {
-    for (const Location &location : {locate(address), Location{Kind::Cpu, address}}) {
-        auto it = labels.find(location);
-        if (it != labels.end() && !it->second.name.empty()) {
-            forgetName(location);
-            if (it->second.comment.empty()) {
-                labels.erase(it);
-            } else {
-                it->second.name.clear(); // the comment stays
-            }
-            return true;
-        }
+    return remove(locate(address)) || remove(Location{Kind::Cpu, address});
+}
+
+bool Symbols::remove(const Location &location)
+{
+    auto it = labels.find(location);
+    if (it == labels.end() || it->second.name.empty()) {
+        return false;
     }
-    return false;
+    forgetName(location);
+    if (it->second.comment.empty()) {
+        labels.erase(it);
+    } else {
+        it->second.name.clear(); // the comment stays
+    }
+    return true;
 }
 
 const std::string *Symbols::commentAt(uint16_t address) const

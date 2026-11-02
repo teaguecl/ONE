@@ -125,6 +125,17 @@ def address_text(value):
     return f"{where:04x}" if isinstance(where, int) else where
 
 
+def bank_address_text(value):
+    """An address for a debugger command line, or "BB:ADDRESS" (BB: the hex PRG bank, as in "05:BAB7")"""
+    bank, _, rest = str(value).rpartition(":")
+    where = address_text(rest)
+    if not bank:
+        return where
+    if not re.fullmatch(r"[0-9A-Fa-f]{1,2}", bank.strip()):
+        raise DebuggerError(f"not a bank: {bank!r} (hex, as in 05:BAB7)")
+    return f"{bank.strip()}:{where}"
+
+
 class Debugger:
     """The connection to one-debugger's remote channel (one request at a time)"""
 
@@ -623,8 +634,9 @@ def build_server(debugger):
     @tool()
     async def label(address: str, name: str = "") -> str:
         """Name an address (kept with the game's labels; any tool's ADDRESS can then be the name, hex taking priority). No
-        name: remove it."""
-        return await call(command_text, f"n {address_text(address)} {name}".rstrip())
+        name: remove it. In bank-switched games a label belongs to one PRG bank: ADDRESS is the one mapped there now, or
+        "BB:ADDRESS" (BB: the hex bank, as in "05:BAB7") for a bank that need not be mapped in."""
+        return await call(lambda: command_text(f"n {bank_address_text(address)} {name}".rstrip()))
 
     # --- breakpoints ---
 
@@ -636,14 +648,9 @@ def build_server(debugger):
         address/value of the access; numbers as 0x..). In bank-switched games ADDRESS can be "BB:ADDRESS" (BB: the
         hex PRG bank, as in "05:BAB7"): it stops only while that bank is mapped there (not for "opcode")."""
         def run():
-            bank, _, rest = str(address).rpartition(":")
-            where = address_text(rest)
-            if bank:
-                if kind == "opcode":
-                    raise DebuggerError("an opcode breakpoint has no bank")
-                if not re.fullmatch(r"[0-9A-Fa-f]{1,2}", bank.strip()):
-                    raise DebuggerError(f"not a bank: {bank!r} (hex, as in 05:BAB7)")
-                where = f"{bank.strip()}:{where}"
+            if kind == "opcode" and ":" in str(address):
+                raise DebuggerError("an opcode breakpoint has no bank")
+            where = bank_address_text(address)
             line = {"exec": f"bpx {where}", "read": f"bpm {where} r", "write": f"bpm {where} w",
                     "access": f"bpm {where} rw", "opcode": f"bop {where}"}.get(kind)
             if line is None:

@@ -179,6 +179,14 @@ if(TARGET one-debugger AND EXISTS ${ONE_ROOT}/tests/data/nestest.nes)
                 -s ${CMAKE_CURRENT_SOURCE_DIR}/debugger_bp_limit.txt ${ONE_ROOT}/tests/data/nestest.nes)
     set_tests_properties(debugger_bp_limit PROPERTIES LABELS smoke TIMEOUT 60
         PASS_REGULAR_EXPRESSION "all 64 are in use[^#]*63\\) BPX +\\$C03F[^#]*63\\) BPX +\\$C040")
+    # n BB:ADDRESS: a label in a bank that is not mapped in; the same CPU address can have a name in each bank
+    if(EXISTS ${ONE_ROOT}/tests/mmc1/mmc1.nes)
+        add_test(NAME debugger_bank_names
+            COMMAND one-debugger --batch --log ${CMAKE_CURRENT_BINARY_DIR}/debugger_bank_names.log
+                    -s ${CMAKE_CURRENT_SOURCE_DIR}/debugger_bank_names.txt ${ONE_ROOT}/tests/mmc1/mmc1.nes)
+        set_tests_properties(debugger_bank_names PROPERTIES LABELS smoke TIMEOUT 60
+            PASS_REGULAR_EXPRESSION "low = 00:9000: PRG-ROM \\$01000[^#]*high = 05:9000: PRG-ROM \\$15000[^#]*'high' is at PRG-ROM \\$15000, which is not mapped in right now[^#]*BPX +\\$9000 low[^#]*higher = 05:9000[^#]*05:9000 has no label[^#]*No PRG bank 7F[^#]*not in the PRG banks")
+    endif()
     # bpx / bpm BB:ADDRESS: only while PRG bank BB is mapped there (the wrong bank's breakpoint is skipped)
     if(EXISTS ${ONE_ROOT}/tests/mmc1/mmc1.nes)
         add_test(NAME debugger_bank_bp

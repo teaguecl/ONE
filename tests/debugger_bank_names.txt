@@ -1,0 +1,14 @@
+# n BB:ADDRESS names that bank's code, mapped in or not (tests/mmc1: bank 0 is mapped at $8000 after power-on)
+n 00:9000 low
+n 05:9000 high
+# the same CPU address has two names; only the mapped bank's is found by name
+bpx low
+bpx high
+bl
+# rename, remove, and remove again
+n 05:9000 higher
+n 05:9000
+n 05:9000
+# refused: no such bank, not a PRG address
+n 7F:8000 x
+n 03:0300 x

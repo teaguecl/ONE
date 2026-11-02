@@ -339,7 +339,7 @@ const std::vector<CommandProcessor::Command> &CommandProcessor::commands()
         {"eb",    &CommandProcessor::cmdEditByte,      {"Edit bytes.  Syntax: eb address = value [value...]", "   Example: eb $10ff = a5 00 ff", nullptr}},
         {"eo",    &CommandProcessor::cmdEditOam,       {"Edit OAM (sprite memory).  Syntax: eo offset = value [value...]", "   Sprite n is at offset 4*n: Y, tile, attributes, X.  Example: eo 14 = 80 36 01 70", "   A game that copies its sprites with OAM DMA overwrites them next frame: edit the copy (eb).", nullptr}},
         {"r",     &CommandProcessor::cmdRegister,      {"Change a register.  Syntax: r register = value", "   Registers: pc a x y p sp.  Example: r a = $1f", nullptr}},
-        {"n",     &CommandProcessor::cmdName,          {"Name (label) an address.  Syntax: n address [name]", "   Example: n $8000 rom_start.  Without a name: remove the label.  lsave saves the labels.", "   In switchable ROM, the label belongs to the bank mapped there now.", nullptr}},
+        {"n",     &CommandProcessor::cmdName,          {"Name (label) an address.  Syntax: n [bank:]address [name]", "   Example: n $8000 rom_start.  Without a name: remove the label.  lsave saves the labels.", "   In switchable ROM, the label belongs to the bank mapped there now, or to the bank given: n 04:8000 name", "   (hex, as the code window shows it; mapped in or not).", nullptr}},
         {"watch", &CommandProcessor::cmdWatch,         {"Watch memory in the watch window (shown at every stop).  Syntax: watch [-p] address [type] [name]", "   Types: b byte (default), w word, s signed byte, bin binary, l n: n bytes (1-16).  -p: PPU memory.", "   Example: watch 774 b health.  watch alone lists the watches.  Kept in the ROM's name with .watch.", nullptr}},
         {"wc",    &CommandProcessor::cmdWatchClear,    {"Clear watches.  Syntax: wc number... | *", "   The watch window closes when the last one goes.", nullptr}},
         {"comment", &CommandProcessor::cmdComment,     {"Comment an address (shown in the code window).  Syntax: comment address [text]", "   Without text: remove the comment.  \\n in the text starts a new line (shown as a space).", "   Key: [;] on the code window's cursor line.  Saved with the labels (lsave, .mlb).", nullptr}},
@@ -1386,7 +1386,7 @@ bool CommandProcessor::breakpointExtras(Args &args, BreakpointExtras &extras)
     return true;
 }
 
-bool CommandProcessor::parseBreakpointAddress(const std::string &text, uint16_t &address, int &bank)
+bool CommandProcessor::parseBankAddress(const std::string &text, uint16_t &address, int &bank)
 {
     bank = -1;
     size_t colon = text.find(':');
@@ -1452,7 +1452,7 @@ void CommandProcessor::cmdBpx(const Args &words)
     }
     uint16_t address = 0;
     int bank = -1;
-    if (!parseBreakpointAddress(args[1], address, bank)) {
+    if (!parseBankAddress(args[1], address, bank)) {
         return;
     }
     addBreakpoint(Breakpoint::Type::Execute, address, extras, bank);
@@ -1471,7 +1471,7 @@ void CommandProcessor::cmdBpm(const Args &words)
     }
     uint16_t address = 0;
     int bank = -1;
-    if (!parseBreakpointAddress(args[1], address, bank)) {
+    if (!parseBankAddress(args[1], address, bank)) {
         return;
     }
     Breakpoint::Type type = Breakpoint::Type::ReadWrite;
@@ -1774,24 +1774,42 @@ void CommandProcessor::cmdRegister(const Args &args)
 void CommandProcessor::cmdName(const Args &args)
 {
     if (args.size() != 2 && args.size() != 3) {
-        print("Syntax: n address name   (n address removes the label)");
+        print("Syntax: n [bank:]address name   (n [bank:]address removes the label)");
         return;
     }
-    auto address = parseAddress(args[1]);
-    if (!address) {
-        print(unknownAddress(args[1]));
+    uint16_t address = 0;
+    int bank = -1;
+    if (!parseBankAddress(args[1], address, bank)) {
         return;
     }
-    if (args.size() == 2) {
-        if (!symbols.remove(*address)) {
-            print(format("$%04X has no label", *address));
+    if (bank >= 0) { // BB:ADDRESS names that bank's code, mapped in or not
+        size_t prgSize = 0;
+        int mapped = 0, banks = 0;
+        mapper_debug_prg_rom(&prgSize);
+        mapper_debug_prg_bank(0x8000, &mapped, &banks); // (parseBankAddress has checked that the game has banks)
+        const uint32_t bankSize = static_cast<uint32_t>(prgSize / static_cast<size_t>(banks));
+        const Symbols::Location where{Symbols::Kind::PrgRom,
+                                      static_cast<uint32_t>(bank) * bankSize + address % bankSize};
+        if (args.size() == 2) {
+            if (!symbols.remove(where)) {
+                print(format("%02X:%04X has no label", bank, address));
+                return;
+            }
+        } else {
+            symbols.setName(where, args[2]);
+            print(format("%s = %02X:%04X: ", args[2].c_str(), bank, address) + Symbols::describe(where) +
+                  " (this bank only)");
+        }
+    } else if (args.size() == 2) {
+        if (!symbols.remove(address)) {
+            print(format("$%04X has no label", address));
             return;
         }
     } else {
-        symbols.add(*address, args[2]);
-        Symbols::Location where = Symbols::locate(*address);
+        symbols.add(address, args[2]);
+        Symbols::Location where = Symbols::locate(address);
         if (where.kind == Symbols::Kind::PrgRom) {
-            print(format("%s = $%04X: ", args[2].c_str(), *address) + Symbols::describe(where) +
+            print(format("%s = $%04X: ", args[2].c_str(), address) + Symbols::describe(where) +
                   (mapper_debug_prg_banked() ? " (this bank only)" : ""));
         }
     }

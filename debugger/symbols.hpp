@@ -49,7 +49,9 @@ public:
     void add(uint16_t address, const std::string &name); // at what the CPU sees there now (the n command)
     void add(const Location &location, const std::string &name, const std::string &comment = std::string(),
              uint32_t length = 1);
-    bool remove(uint16_t address); // the label's name (a comment there stays)
+    void setName(const Location &location, const std::string &name); // keeps the comment and range there
+    bool remove(uint16_t address);                                   // the label's name (a comment there stays)
+    bool remove(const Location &location);
     void clear();
 
     // Comments (Mesen .mlb keeps them with the labels; an address can have a comment without a label). The comment

@@ -192,8 +192,9 @@ private:
     };
     bool breakpointExtras(Args &args, BreakpointExtras &extras);
     void addBreakpoint(Breakpoint::Type type, uint16_t address, BreakpointExtras &extras, int bank = -1);
-    // "ADDRESS" or "BB:ADDRESS" (BB: hex PRG bank, as the code window shows it); says why when it fails
-    bool parseBreakpointAddress(const std::string &text, uint16_t &address, int &bank);
+    // "ADDRESS" or "BB:ADDRESS" (BB: hex PRG bank, as the code window shows it; bank -1: none given); says why
+    // when it fails
+    bool parseBankAddress(const std::string &text, uint16_t &address, int &bank);
     bool breakpointSlots(const Args &args, std::vector<unsigned> &slots);
     bool canRun(); // false (and says why) inside a Lua callback, where the emulation cannot be resumed
     void print(const std::string &line); // to the host, or to the capture of executeCaptured()

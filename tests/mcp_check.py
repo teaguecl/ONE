@@ -90,6 +90,11 @@ async def run(debugger, rom):
             _, text = await tool("read_memory", address="nosuchlabel")
             check("Unknown symbol" in text, f"an unknown label says so: {text!r}")
             await tool("label", address="$0300")  # (no name: removed again)
+            # (nestest has no PRG banking: the bank form is refused)
+            _, text = await tool("label", address="01:8000", name="x")
+            check("no PRG banking" in text, f"label BB:ADDRESS on an unbanked game is refused: {text!r}")
+            _, text = await tool("label", address="zz:8000", name="x")
+            check("not a bank" in text, f"label with a bad bank is refused: {text!r}")
 
             _, text = await tool("set_breakpoint", kind="exec", address="$C28F")
             _, text = await tool("wait_for_breakpoint", timeout=20)
