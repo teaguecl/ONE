@@ -242,6 +242,16 @@ const std::string *Symbols::commentAt(uint16_t address) const
     return source != sourceComments.end() ? &source->second : nullptr;
 }
 
+const std::string *Symbols::commentAt(const Location &location) const
+{
+    auto it = labels.find(location);
+    if (it != labels.end() && !it->second.comment.empty()) {
+        return &it->second.comment;
+    }
+    auto source = sourceComments.find(location);
+    return source != sourceComments.end() ? &source->second : nullptr;
+}
+
 void Symbols::setComment(uint16_t address, const std::string &comment)
 {
     // on the entry that is already there (a label for the plain CPU address counts), else on what is mapped there
@@ -249,6 +259,11 @@ void Symbols::setComment(uint16_t address, const std::string &comment)
     if (!labels.count(location) && labels.count(Location{Kind::Cpu, address})) {
         location = Location{Kind::Cpu, address};
     }
+    setComment(location, comment);
+}
+
+void Symbols::setComment(const Location &location, const std::string &comment)
+{
     auto it = labels.find(location);
     if (it == labels.end()) {
         if (!comment.empty()) {

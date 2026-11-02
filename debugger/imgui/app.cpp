@@ -1833,10 +1833,7 @@ void DebuggerApp::toggleBreakpointAtCursor()
 {
     Emulator &emu = Emulator::instance();
     uint16_t address = (codeView && focused() == kCode) ? codeView->cursorAddress() : cpu_debug_get_pc();
-    int slot = emu.breakpointAt(address);
-    if (slot >= 0) {
-        emu.removeBreakpoint(static_cast<unsigned>(slot));
-    } else if (emu.addBreakpoint(Breakpoint::Type::Execute, address) < 0) {
+    if (emu.toggleBreakpoint(address) == Emulator::Toggle::Full) {
         print("Cannot set breakpoint: all " + std::to_string(Emulator::kMaxBreakpoints) + " are in use");
     }
 }

@@ -58,7 +58,9 @@ public:
     // for a CPU address is looked up like find(); setComment() puts it on what is mapped there now, or on the label
     // already there; an empty comment removes it.
     const std::string *commentAt(uint16_t address) const;
+    const std::string *commentAt(const Location &location) const; // at a location, mapped in or not
     void setComment(uint16_t address, const std::string &comment);
+    void setComment(const Location &location, const std::string &comment);
 
     // The label for a CPU address: the one at what is mapped there now, else one for the plain CPU address
     const std::string *find(uint16_t address) const;

@@ -192,7 +192,7 @@ if(TARGET one-debugger AND EXISTS ${ONE_ROOT}/tests/data/nestest.nes)
             COMMAND one-debugger --batch --log ${CMAKE_CURRENT_BINARY_DIR}/debugger_bank_names.log
                     -s ${CMAKE_CURRENT_SOURCE_DIR}/debugger_bank_names.txt ${ONE_ROOT}/tests/mmc1/mmc1.nes)
         set_tests_properties(debugger_bank_names PROPERTIES LABELS smoke TIMEOUT 60
-            PASS_REGULAR_EXPRESSION "low = 00:9000: PRG-ROM \\$01000[^#]*high = 05:9000: PRG-ROM \\$15000[^#]*'high' is at PRG-ROM \\$15000, which is not mapped in right now[^#]*BPX +\\$9000 low[^#]*higher = 05:9000[^#]*05:9000 has no label[^#]*No PRG bank 7F[^#]*not in the PRG banks")
+            PASS_REGULAR_EXPRESSION "low = 00:9000: PRG-ROM \\$01000[^#]*high = 05:9000: PRG-ROM \\$15000[^#]*'high' is at PRG-ROM \\$15000, which is not mapped in right now[^#]*BPX +\\$9000 low[^#]*higher = 05:9000[^#]*05:9000 has no label[^#]*No PRG bank 7F[^#]*not in the PRG banks.*05:9000 has no comment")
     endif()
     # bpx / bpm BB:ADDRESS: only while PRG bank BB is mapped there (the wrong bank's breakpoint is skipped)
     if(EXISTS ${ONE_ROOT}/tests/mmc1/mmc1.nes)
@@ -201,7 +201,7 @@ if(TARGET one-debugger AND EXISTS ${ONE_ROOT}/tests/data/nestest.nes)
                     -s ${CMAKE_CURRENT_SOURCE_DIR}/debugger_bank_bp.txt ${ONE_ROOT}/tests/mmc1/mmc1.nes)
         set_tests_properties(debugger_bank_bp PROPERTIES LABELS smoke TIMEOUT 60
             FAIL_REGULAR_EXPRESSION "ASSERTION FAILED"
-            PASS_REGULAR_EXPRESSION "No PRG bank 7F[^#]*not in the PRG banks[^#]*'zz' is not a bank number[^#]*No breakpoints set")
+            PASS_REGULAR_EXPRESSION "No PRG bank 7F[^#]*not in the PRG banks[^#]*'zz' is not a bank number[^#]*No breakpoints set.*BPX +03:8000.*No breakpoints set")
     endif()
     # Game Genie codes (cheats.c): applied, 8-letter compare values, on/off, kept over a power cycle
     add_test(NAME debugger_gamegenie

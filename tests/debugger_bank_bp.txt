@@ -33,3 +33,8 @@ bpm 03:8000..9FFF r
 x
 !assert reg x 03
 bc *
+# F9 (the toggle) sets a breakpoint for the bank that is mapped at the address now (bank 3 at $8000 here); the next F9 removes it
+!toggle bp 8000
+bl
+!toggle bp 8000
+bl

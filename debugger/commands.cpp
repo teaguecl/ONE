@@ -325,7 +325,7 @@ const std::vector<CommandProcessor::Command> &CommandProcessor::commands()
         {"zapper", &CommandProcessor::cmdZapper,       {"Aim the Zapper (light gun) on port 2.  Syntax: zapper [x y | off] [fire [frames]] | none", "   Plugs a Zapper into port 2 (instead of controller 2) and points it at the NES pixel X Y (0-255, 0-239), or away from the screen (off).  fire pulls the trigger for FRAMES frames (default 2) from now: fs or x runs them.  none unplugs it.  Without arguments: where it points.  The Zapper takes its aim once a frame, at the first read of $4017 after vblank.  Examples: zapper 136 104 fire 3   zapper off", nullptr}},
         {"savestate", &CommandProcessor::cmdSaveState, {"Save or load the game.  Syntax: savestate save|load [slot]", "   Slots 1-9, next to the ROM (game.ss1 ...), the same as F1/F2 in the game window; default: the current slot. save runs to the start of the next vblank (fs) and saves on the way, at the end of the picture.", nullptr}},
         // @group Breakpoints
-        {"bpx",   &CommandProcessor::cmdBpx,           {"Breakpoint on execution.  Syntax: bpx [bank:]address [if condition] [do \"commands\"]", "   Example: bpx $8432   or   bpx nmi_handler   or   bpx 8000 if a == 0 do \"d 300; g\"", "   bank: (hex, as the code window shows it) stops only while that PRG bank is mapped there.  Example: bpx 05:BAB7", "   if: Lua (a x y s p pc scanline cycle frame mem[addr] emu.*).  do: commands when it stops", "Func key: [F9] toggles a breakpoint on the code window's cursor line", nullptr}},
+        {"bpx",   &CommandProcessor::cmdBpx,           {"Breakpoint on execution.  Syntax: bpx [bank:]address [if condition] [do \"commands\"]", "   Example: bpx $8432   or   bpx nmi_handler   or   bpx 8000 if a == 0 do \"d 300; g\"", "   bank: (hex, as the code window shows it) stops only while that PRG bank is mapped there.  Example: bpx 05:BAB7", "   if: Lua (a x y s p pc scanline cycle frame mem[addr] emu.*).  do: commands when it stops", "Func key: [F9] toggles a breakpoint on the code window's cursor line (in a bank-switched game, in the bank mapped there now)", nullptr}},
         {"bpm",   &CommandProcessor::cmdBpm,           {"Breakpoint on memory access.  Syntax: bpm [bank:]address[..end] [r|w|rw|x] [if condition] [do \"commands\"]", "   Stops after the instruction that accessed the address, or any address of the range START..END.  Default: rw.", "   Example: bpm 0300..03FF w   if: also address, value (the old value is mem[address])", nullptr}},
         {"bop",   &CommandProcessor::cmdBop,           {"Breakpoint on opcode execution.  Syntax: bop opcode [if condition] [do \"commands\"]", "   Example: bop 9E", nullptr}},
         {"bc",    &CommandProcessor::cmdBc,            {"Clear breakpoints.  Syntax: bc number... | *", "   Example: bc 3", nullptr}},
@@ -342,7 +342,7 @@ const std::vector<CommandProcessor::Command> &CommandProcessor::commands()
         {"n",     &CommandProcessor::cmdName,          {"Name (label) an address.  Syntax: n [bank:]address [name]", "   Example: n $8000 rom_start.  Without a name: remove the label.  lsave saves the labels.", "   In switchable ROM, the label belongs to the bank mapped there now, or to the bank given: n 04:8000 name", "   (hex, as the code window shows it; mapped in or not).", nullptr}},
         {"watch", &CommandProcessor::cmdWatch,         {"Watch memory in the watch window (shown at every stop).  Syntax: watch [-p] address [type] [name]", "   Types: b byte (default), w word, s signed byte, bin binary, l n: n bytes (1-16).  -p: PPU memory.", "   Example: watch 774 b health.  watch alone lists the watches.  Kept in the ROM's name with .watch.", nullptr}},
         {"wc",    &CommandProcessor::cmdWatchClear,    {"Clear watches.  Syntax: wc number... | *", "   The watch window closes when the last one goes.", nullptr}},
-        {"comment", &CommandProcessor::cmdComment,     {"Comment an address (shown in the code window).  Syntax: comment address [text]", "   Without text: remove the comment.  \\n in the text starts a new line (shown as a space).", "   Key: [;] on the code window's cursor line.  Saved with the labels (lsave, .mlb).", nullptr}},
+        {"comment", &CommandProcessor::cmdComment,     {"Comment an address (shown in the code window).  Syntax: comment [bank:]address [text]", "   Without text: remove the comment.  \\n in the text starts a new line (shown as a space).", "   In switchable ROM the comment belongs to the bank mapped there now, or to the bank given: comment 04:8000 text", "   (hex, as the code window shows it; mapped in or not).  Key: [;] on the code window's cursor line.  Saved with the labels (lsave, .mlb).", nullptr}},
         {"lb",    &CommandProcessor::cmdLoadBinary,    {"Load a binary file into CPU memory.  Syntax: lb file address", "   Example: lb program.bin 0300", nullptr}},
         // @group Search and Labels
         {"s",     &CommandProcessor::cmdFind,          {"Search memory for data.  Syntax: s [-cp] [address L length data-list]", "   data-list: bytes and quoted strings, e.g. s c000 l 4000 a9 'HI',0   (length hex)", "   -c: strings ignore case.  -p: PPU memory.  s alone: continue after the last match.", "   A match is shown in the memory window.", nullptr}},
@@ -792,7 +792,7 @@ std::string CommandProcessor::hint(const std::string &partial) const
     }
     std::string text = partial.substr(start);
     if (text[0] == '!') {
-        return "Script commands: !assert reg r value, !assert mem address value, !assert previous address expected, !assert backtrack address lines expected, !assert watch n value, !assert comment address text, !assert oam n text, !assert frame n, !assert scanline n, !assert pad 1|2 buttons, !assert cdl code|data|jump|sub|unseen offset, !assert cdlpcm min n, !assert bt depth|site|target ..., !assert prof calls|incl|excl|min|max|routines|balanced ..., !assert lag [min] n | lag last 0|1, !set reg r value";
+        return "Script commands: !assert reg r value, !assert mem address value, !assert previous address expected, !assert backtrack address lines expected, !assert watch n value, !assert comment address text, !assert oam n text, !assert frame n, !assert scanline n, !assert pad 1|2 buttons, !assert cdl code|data|jump|sub|unseen offset, !assert cdlpcm min n, !assert bt depth|site|target ..., !assert prof calls|incl|excl|min|max|routines|balanced ..., !assert lag [min] n | lag last 0|1, !set reg r value, !toggle bp address (the F9 key)";
     }
     if (text[0] == '#') {
         return "Comment";
@@ -1797,6 +1797,20 @@ void CommandProcessor::cmdRegister(const Args &args)
     host.stateChanged();
 }
 
+// The label location of PRG bank BANK at ADDRESS ($8000-$FFFF), mapped in or not (parseBankAddress has checked that the game
+// has banks, and the bank)
+namespace {
+Symbols::Location bankLocation(int bank, uint16_t address)
+{
+    size_t prgSize = 0;
+    int mapped = 0, banks = 0;
+    mapper_debug_prg_rom(&prgSize);
+    mapper_debug_prg_bank(0x8000, &mapped, &banks);
+    const uint32_t bankSize = static_cast<uint32_t>(prgSize / static_cast<size_t>(banks));
+    return {Symbols::Kind::PrgRom, static_cast<uint32_t>(bank) * bankSize + address % bankSize};
+}
+} // namespace
+
 void CommandProcessor::cmdName(const Args &args)
 {
     if (args.size() != 2 && args.size() != 3) {
@@ -1809,13 +1823,7 @@ void CommandProcessor::cmdName(const Args &args)
         return;
     }
     if (bank >= 0) { // BB:ADDRESS names that bank's code, mapped in or not
-        size_t prgSize = 0;
-        int mapped = 0, banks = 0;
-        mapper_debug_prg_rom(&prgSize);
-        mapper_debug_prg_bank(0x8000, &mapped, &banks); // (parseBankAddress has checked that the game has banks)
-        const uint32_t bankSize = static_cast<uint32_t>(prgSize / static_cast<size_t>(banks));
-        const Symbols::Location where{Symbols::Kind::PrgRom,
-                                      static_cast<uint32_t>(bank) * bankSize + address % bankSize};
+        const Symbols::Location where = bankLocation(bank, address);
         if (args.size() == 2) {
             if (!symbols.remove(where)) {
                 print(format("%02X:%04X has no label", bank, address));
@@ -1846,12 +1854,12 @@ void CommandProcessor::cmdName(const Args &args)
 void CommandProcessor::cmdComment(const Args &args)
 {
     if (args.size() < 2) {
-        print("Syntax: comment address [text]   (without text: remove the comment)");
+        print("Syntax: comment [bank:]address [text]   (without text: remove the comment)");
         return;
     }
-    auto address = parseAddress(args[1]);
-    if (!address) {
-        print(unknownAddress(args[1]));
+    uint16_t address = 0;
+    int bank = -1;
+    if (!parseBankAddress(args[1], address, bank)) {
         return;
     }
     // the text: the rest of the line as typed (split() would eat '=' and ','); "\n" is a line break, as in .mlb
@@ -1866,11 +1874,20 @@ void CommandProcessor::cmdComment(const Args &args)
     for (size_t i = 0; (i = text.find("\\n", i)) != std::string::npos; i++) {
         text.replace(i, 2, "\n");
     }
-    if (text.empty() && !symbols.commentAt(*address)) {
-        print(format("$%04X has no comment", *address));
-        return;
+    if (bank >= 0) { // BB:ADDRESS: that bank's comment, mapped in or not
+        const Symbols::Location where = bankLocation(bank, address);
+        if (text.empty() && !symbols.commentAt(where)) {
+            print(format("%02X:%04X has no comment", bank, address));
+            return;
+        }
+        symbols.setComment(where, text);
+    } else {
+        if (text.empty() && !symbols.commentAt(address)) {
+            print(format("$%04X has no comment", address));
+            return;
+        }
+        symbols.setComment(address, text);
     }
-    symbols.setComment(*address, text);
     host.stateChanged();
 }
 
@@ -3385,9 +3402,20 @@ void CommandProcessor::scriptCommand(const Args &args)
         }
     } else if (args.size() == 4 && lower(args[0]) == "set" && lower(args[1]) == "reg") {
         cmdRegister({"r", args[2], args[3]});
+    } else if (args.size() == 3 && lower(args[0]) == "toggle" && lower(args[1]) == "bp") {
+        // the F9 key's breakpoint toggle, at ADDRESS: in a bank-switched game the bank that is mapped there now
+        auto address = parseAddress(args[2]);
+        if (!address) {
+            print(unknownAddress(args[2]));
+            return;
+        }
+        if (Emulator::instance().toggleBreakpoint(*address) == Emulator::Toggle::Full) {
+            print(format("Cannot set breakpoint: all %u are in use", Emulator::kMaxBreakpoints));
+        }
+        host.stateChanged();
     } else {
         print(
-            "Script commands: !assert reg r value, !assert mem address value, !assert previous address expected, !assert backtrack address lines expected, !assert watch n value, !assert comment address text, !assert oam n text, !assert frame n, !assert scanline n, !assert pad 1|2 buttons, !assert cdl code|data|jump|sub|unseen offset, !assert cdlpcm min n, !assert bt depth|site|target ..., !assert prof calls|incl|excl|min|max|routines|balanced ..., !assert lag [min] n | lag last 0|1, !set reg r value");
+            "Script commands: !assert reg r value, !assert mem address value, !assert previous address expected, !assert backtrack address lines expected, !assert watch n value, !assert comment address text, !assert oam n text, !assert frame n, !assert scanline n, !assert pad 1|2 buttons, !assert cdl code|data|jump|sub|unseen offset, !assert cdlpcm min n, !assert bt depth|site|target ..., !assert prof calls|incl|excl|min|max|routines|balanced ..., !assert lag [min] n | lag last 0|1, !set reg r value, !toggle bp address (the F9 key)");
     }
 }
 

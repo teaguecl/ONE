@@ -530,6 +530,20 @@ bool Emulator::setBreakpointEnabled(unsigned slot, bool enabled)
     return true;
 }
 
+Emulator::Toggle Emulator::toggleBreakpoint(uint16_t address)
+{
+    int slot = breakpointAt(address);
+    if (slot >= 0) {
+        removeBreakpoint(static_cast<unsigned>(slot));
+        return Toggle::Removed;
+    }
+    int bank = -1, banks = 0;
+    if (address < 0x8000 || !mapper_debug_prg_bank(address, &bank, &banks)) {
+        bank = -1; // RAM, or a game that does not switch PRG banks
+    }
+    return addBreakpoint(Breakpoint::Type::Execute, address, {}, -1, {}, bank) < 0 ? Toggle::Full : Toggle::Added;
+}
+
 bool Emulator::bankMatches(const Breakpoint &bp, uint16_t address)
 {
     int bank = 0, banks = 0;

@@ -12,3 +12,9 @@ n 05:9000
 # refused: no such bank, not a PRG address
 n 7F:8000 x
 n 03:0300 x
+# comments by bank, the same way (bank 0 is mapped at $9000, so its comment is the one the code window shows)
+comment 00:9000 low
+comment 05:9000 high
+!assert comment 9000 low
+comment 05:9000
+comment 05:9000

@@ -101,6 +101,10 @@ public:
     int breakpointAt(
         uint16_t address) const; // execute breakpoint slot covering address (in the bank mapped now), -1 if none
     static bool bankMatches(const Breakpoint &bp, uint16_t address); // bp's bank is any, or is mapped at address now
+    // The F9 key: removes the execute breakpoint that covers ADDRESS (in the bank mapped there now), or sets one for ADDRESS in
+    // the PRG bank that is mapped there now (a bank-switched game: it stops only while that bank is mapped; Full: no free slot)
+    enum class Toggle { Removed, Added, Full };
+    Toggle toggleBreakpoint(uint16_t address);
     int hitBreakpoint() const { return lastHit; }
     uint16_t hitAccessAddress() const { return lastHitAddress; }
     bool hitAccessWasWrite() const { return lastHitWrite; }
