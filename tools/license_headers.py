@@ -18,8 +18,9 @@ SPDX = "SPDX-License-Identifier: GPL-2.0-or-later"
 YEARS = "1999-2026"
 HOLDER = "Chris Teague"
 
-# not ours: libco (ISC), libretro.h (MIT), the Lua scripts of others, downloaded test ROMs and their sources
-SKIP_DIRS = {"build", "commercial_games", "test_roms", "lua_scripts", "libco", ".git",
+# not ours: libco (ISC), libretro.h (MIT), the Lua scripts of others, downloaded test ROMs and their sources, and the
+# RAMBO-1 test ROM sources (tests/rambo1hw: copied unmodified from the research repo)
+SKIP_DIRS = {"build", "commercial_games", "test_roms", "lua_scripts", "libco", "rambo1hw", ".git",
              "__pycache__"}
 SKIP_FILES = {"libretro/libretro.h"}
 C_EXT = (".c", ".h", ".cpp", ".hpp")
