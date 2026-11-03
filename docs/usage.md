@@ -7,7 +7,7 @@ How to run `one`, its in-game menu, settings, controllers, sound, hotkeys and sa
 
 ```
 one [OPTIONS] [FILE]    (without FILE: the menu opens, to choose a game)
-  -V, --version         print the version (`0.1.0`; a build that is not a tagged release adds the commit, `0.1.0+g1a2b3c4`) and exit
+  -V, --version         print the version (`0.2.0`; a build that is not a tagged release adds the commit, `0.2.0+g1a2b3c4`) and exit
   -H, --headless        no window (always the case in builds without SDL2)
   -t, --trace           write the CPU trace (Mesen format) to stderr
       --trace-file FILE write the trace to FILE instead
