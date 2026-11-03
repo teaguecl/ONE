@@ -344,6 +344,21 @@ if(TARGET one AND Python3_FOUND AND EXISTS ${ONE_ROOT}/apu_reference/mmc5audio.w
     set_tests_properties(apu_mmc5audio PROPERTIES LABELS smoke TIMEOUT 120)
 endif()
 
+# The RAMBO-1 hardware test ROMs g1 to g6 (tests/rambo1hw, see its README): each starts with a signature at $0301 ($DE $B0 $61) and ends with its status at $0300
+# ($00: all tests passed; $80: still running; else the code of the first failure). 510 frames is enough for all six (g6 needs about 380).
+if(TARGET one-debugger)
+    foreach(rom g1_power_on g2_banking g3_bus g4_cpu_irq g5_a12_irq g6_raster)
+        if(EXISTS ${ONE_ROOT}/tests/rambo1hw/${rom}.nes)
+            file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/rambo1hw_${rom}.txt
+                "fs 510\n!assert mem 0301 de\n!assert mem 0302 b0\n!assert mem 0303 61\n!assert mem 0300 00\nq\n")
+            add_test(NAME rambo1hw_${rom}
+                COMMAND one-debugger --batch --log ${CMAKE_CURRENT_BINARY_DIR}/rambo1hw_${rom}.log
+                        -s ${CMAKE_CURRENT_BINARY_DIR}/rambo1hw_${rom}.txt ${ONE_ROOT}/tests/rambo1hw/${rom}.nes)
+            set_tests_properties(rambo1hw_${rom} PROPERTIES LABELS smoke TIMEOUT 120
+                FAIL_REGULAR_EXPRESSION "ASSERTION FAILED" PASS_REGULAR_EXPRESSION "Frame 509")
+        endif()
+    endforeach()
+endif()
 # Dig Dug II (Japan) has mapper 64 in its iNES header but is a Namco 108 game: the CRC-32 override in mapper.c (commercial_games/ is not in
 # the repository: skipped without it)
 if(TARGET one AND EXISTS "${ONE_ROOT}/commercial_games/Dig Dug II (Japan).zip")
