@@ -30,7 +30,12 @@ INPUT_GAMES = (("Castlevania III - Dracula's Curse (USA).nes", "castlevania3_inp
                ("Hogan's Alley (World).zip", "hogansalley_input.txt", (560, 1130)),
                ("Gumshoe (USA, Europe).zip", "gumshoe_input.txt", (600, 1200)),
                ("Operation Wolf (USA) (Rev 0A).zip", "operationwolf_input.txt", (600, 1200)),
-               ("Duck Hunt (World).nes", "duckhunt_input.txt", (540, 560, 900)))  # (+ the Zapper: shots at frames 525, 570)
+               ("Duck Hunt (World).nes", "duckhunt_input.txt", (540, 560, 900)),
+               # RAMBO-1 games (A12 and CPU-cycle IRQs)
+               ("Klax (USA) (Unl).zip", "klax_input.txt", (700, 1200)),
+               ("Shinobi (USA) (Unl).zip", "shinobi_input.txt", (700, 1200)),
+               ("Skull & Crossbones (USA) (Unl).zip", "skullcrossbones_input.txt", (700, 1200)),
+               ("Rolling Thunder (USA) (Unl).zip", "rollingthunder_input.txt", (700, 1200)))  # (+ the Zapper: shots at frames 525, 570)
 # The Zapper test ROM, aimed as Mesen saw it (tests/zapper/zapper_input_mesen.txt): $4017 reads need the PPU where the CPU is
 ZAPPER_RUN = ("zapper_free.nes", "zapper_input_mesen.txt", (70, 100, 130, 180))
 
@@ -82,6 +87,12 @@ def made_up_games(directory):
         init = [0xA9, 0x07, 0x8D, 0x00, 0xC0, 0x8D, 0x01, 0xC0, 0x8D, 0x01, 0xE0]  # latch 7, reload, enable
         code, nmi, irq = spin_game(4, 0xE000, ctrl, 0x18, init)
         games[name] = ines(4, 2, 0x6000, code, 0x7FFA, lo_hi(nmi) + lo_hi(0xE000) + lo_hi(irq), 0)
+    # RAMBO-1 (mapper 64): the A12 counter (latch 7: an IRQ every 8 lines, with 8x8 and 8x16 sprites) and the CPU-cycle timer (an
+    # IRQ every 4 * (50 + 1) cycles). Acknowledged by $E000 and enabled again by $E001. Code in the fixed last 8 KB bank
+    for name, ctrl, latch, mode in (("rambo1_a12_8x8", 0x08, 7, 0), ("rambo1_a12_8x16", 0x28, 7, 0), ("rambo1_cpu", 0x08, 50, 1)):
+        init = [0xA9, latch, 0x8D, 0x00, 0xC0, 0xA9, mode, 0x8D, 0x01, 0xC0, 0x8D, 0x01, 0xE0]  # latch, mode, enable
+        code, nmi, irq = spin_game(64, 0xE000, ctrl, 0x18, init, ack=(0x8D, 0x00, 0xE0, 0x8D, 0x01, 0xE0))
+        games[name] = ines(64, 2, 0x6000, code, 0x7FFA, lo_hi(nmi) + lo_hi(0xE000) + lo_hi(irq), 0)
     # MMC5 scanline IRQ (compare value in line 10 / 100 / 239, once a frame), acknowledged by reading $5204; 8x8 and 8x16 sprites.
     # The code is in the last 8 KB bank (the MMC5 maps it at $E000 at power-on) of a 16 KB PRG
     for name, ctrl, target in (("mmc5_irq_10", 0x08, 10), ("mmc5_irq_100_8x16", 0x28, 100), ("mmc5_irq_239", 0x08, 239)):
@@ -172,6 +183,7 @@ def main(argv):
     elif not roms and not resets:
         found = glob.glob(os.path.join(root, "test_roms", "**", "*.nes"), recursive=True)
         roms = sorted(f for f in found if everything or os.path.basename(f) in SELECTION)
+        roms += sorted(glob.glob(os.path.join(root, "tests", "rambo1hw", "g*.nes")))  # (RAMBO-1 hardware tests: committed)
         roms += [os.path.join(root, "commercial_games", g) for g in GAMES
                  if os.path.exists(os.path.join(root, "commercial_games", g))]
         resets = sorted(f for f in found if os.path.basename(f) in RESET_ROMS)
